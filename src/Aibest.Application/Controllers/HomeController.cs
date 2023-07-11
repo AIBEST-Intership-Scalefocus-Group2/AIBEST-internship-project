@@ -1,8 +1,9 @@
-﻿using BackEnd.Models;
+﻿using Aibest.Application.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
-namespace App.Controllers
+namespace Aibest.Application.Controllers
 {
     public class HomeController : Controller
     {

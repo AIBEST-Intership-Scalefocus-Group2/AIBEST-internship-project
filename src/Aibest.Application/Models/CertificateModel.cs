@@ -1,4 +1,6 @@
-﻿namespace App.Models
+﻿using System;
+
+namespace Aibest.Application.Models
 {
     public class CertificateModel
     {

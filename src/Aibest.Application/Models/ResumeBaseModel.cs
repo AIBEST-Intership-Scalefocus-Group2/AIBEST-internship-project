@@ -1,4 +1,7 @@
-﻿namespace App.Models
+﻿using Aibest.Application.Models;
+using System.Collections.Generic;
+
+namespace Aibest.Application.Models
 {
     public class ResumeBaseModel
     {
