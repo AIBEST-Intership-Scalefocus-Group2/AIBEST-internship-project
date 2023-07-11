@@ -1,8 +1,8 @@
-﻿using BackEnd.Models;
+﻿using App.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace BackEnd.Data
+namespace App.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

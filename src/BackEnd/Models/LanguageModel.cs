@@ -1,4 +1,4 @@
-﻿namespace BackEnd.Models
+﻿namespace App.Models
 {
     public class LanguageModel
     {
