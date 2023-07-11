@@ -15,9 +15,9 @@ namespace Aibest.Data
 
         public DbSet<Skill> Skills { get; set; }
 
-        //public DbSet<WorkModel> Work { get; set; }
-        //public DbSet<EducationModel> Education { get; set; }
-        //public DbSet<LanguageModel> Language { get; set; }
-        //public DbSet<CertificateModel> Certificates { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<Education> Educations { get; set; }
+        public DbSet<Language> Language { get; set; }
+        public DbSet<Certificate> Certificates { get; set; }
     }
 }

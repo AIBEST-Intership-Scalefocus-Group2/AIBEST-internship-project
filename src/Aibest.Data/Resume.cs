@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +15,10 @@ namespace Aibest.Data
         public Resume()
         {
             Skills = new HashSet<Skill>();
+            Jobs = new HashSet<Job>();
+            Educations = new HashSet<Education>();
+            Languages = new HashSet<Language>();
+            Certificates = new HashSet<Certificate>();
         }
 
         [Required]
@@ -35,5 +40,14 @@ namespace Aibest.Data
         public string Address { get; set; }
 
         public ICollection<Skill> Skills { get; }
+        public ICollection<Job> Jobs { get; }
+
+        public ICollection<Education> Educations { get; }
+
+        public ICollection<Language> Languages { get; }
+
+        public ICollection<Certificate> Certificates { get; }
+
+        
     }
 }
