@@ -7,8 +7,10 @@ namespace Aibest.Data
     {
         [Required]
         public string LanguageName { get; set; }
+        
         [Required]
         public string Level { get; set; }
+        
         public int ResumeId { get; set; }
 
         [ForeignKey(nameof(ResumeId))]

@@ -26,10 +26,12 @@ namespace Aibest.Data
 
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; }
+        
         [Required]
         public string FirstName { get; set; }
 
         public string MiddleName { get; set; }
+        
         [Required]
         public string LastName { get; set; }
 
@@ -40,6 +42,7 @@ namespace Aibest.Data
         public string Address { get; set; }
 
         public ICollection<Skill> Skills { get; }
+        
         public ICollection<Job> Jobs { get; }
 
         public ICollection<Education> Educations { get; }
@@ -47,7 +50,5 @@ namespace Aibest.Data
         public ICollection<Language> Languages { get; }
 
         public ICollection<Certificate> Certificates { get; }
-
-        
     }
 }

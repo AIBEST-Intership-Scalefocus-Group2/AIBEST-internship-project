@@ -8,13 +8,18 @@ namespace Aibest.Data
     {
         [Required]
         public string Name { get; set; }
+        
         [Required]
         public string CompanyName { get; set; }
+        
         [Required]
         public string Position { get; set; }
+        
         public string Description { get; set; }
+        
         [Required]
         public DateTime BeginYear { get; set; }
+        
         [Required]
         public DateTime EndYear { get; set; }
 
