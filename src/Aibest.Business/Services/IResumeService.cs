@@ -15,7 +15,7 @@ namespace Aibest.Business.Services
 
         bool DeleteResume(int resumeId);
 
-        bool GetResumeById(int resumeId);
+        ResumeModel GetResumeById(int resumeId);
 
         bool AddSkillToResume(int resumeId, string name);
 
@@ -36,5 +36,17 @@ namespace Aibest.Business.Services
         bool AddCertificate(int resumeId, string name, DateTime issuedYear, string description);
 
         bool RemoveCertificate(int resumeId, int certificateId);
+
+        List<ResumeModel> GetResumesByUserId(int userId);
+
+        List<CertificateModel> GetCertificatesByResumeId(int resumeId);
+        
+        List<JobModel> GetJobsByResumeId(int resumeId);
+        
+        List<LanguageModel> GetLanguagesByResumeId(int resumeId);
+        
+        List<SkillModel> GetSkillsByResumeId(int resumeId);
+        
+        List<EducationModel> GetEducationsByResumeId(int resumeId);
     }
 }
