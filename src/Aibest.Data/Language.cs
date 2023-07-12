@@ -6,7 +6,7 @@ namespace Aibest.Data
     public class Language : Entity
     {
         [Required]
-        public string LanguageName { get; set; }
+        public string Name { get; set; }
         
         [Required]
         public string Level { get; set; }

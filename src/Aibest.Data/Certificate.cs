@@ -9,7 +9,6 @@ namespace Aibest.Data
         [Required]
         public string Name { get; set; }
         
-        [Required]
         public DateTime IssuedYear { get; set; }
         
         public string Description { get; set; }

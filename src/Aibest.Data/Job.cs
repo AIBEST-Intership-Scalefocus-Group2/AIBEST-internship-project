@@ -17,10 +17,8 @@ namespace Aibest.Data
         
         public string Description { get; set; }
         
-        [Required]
         public DateTime BeginYear { get; set; }
         
-        [Required]
         public DateTime EndYear { get; set; }
 
         public int ResumeId { get; set; }

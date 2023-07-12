@@ -19,7 +19,7 @@ namespace Aibest.Data
         
         public DbSet<Education> Educations { get; set; }
         
-        public DbSet<Language> Language { get; set; }
+        public DbSet<Language> Languages { get; set; }
         
         public DbSet<Certificate> Certificates { get; set; }
     }
