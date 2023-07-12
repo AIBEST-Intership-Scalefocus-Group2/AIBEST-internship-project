@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Aibest.Business.Models
 {
-    public class ResumeModel
+    public class ResumeModel : EntityModel
     {
         public ResumeModel()
         {

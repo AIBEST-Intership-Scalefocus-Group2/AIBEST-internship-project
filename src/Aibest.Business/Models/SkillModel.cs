@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Aibest.Business.Models
 {
-    public class SkillModel
+    public class SkillModel : EntityModel
     {
         public string Name { get; set; }
 
