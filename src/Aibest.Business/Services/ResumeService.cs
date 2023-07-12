@@ -15,7 +15,7 @@ namespace Aibest.Business.Services
             this.context = context;
         }
 
-        public bool AddCertificate(int resumeId, string name, DateTime issuedYear, string description)
+        public bool AddCertificateToResume(int resumeId, string name, DateTime issuedYear, string description)
         {
             var certificate = new CertificateModel()
             {
@@ -28,7 +28,7 @@ namespace Aibest.Business.Services
             context.SaveChanges();
         }
 
-        public bool AddEducation(int resumeId, string name, string country, string major, DateTime beginYear, DateTime endYear)
+        public bool AddEducationToResume(int resumeId, string name, string country, string major, DateTime beginYear, DateTime endYear)
         {
             var education = new EducationModel()
             {
@@ -43,7 +43,7 @@ namespace Aibest.Business.Services
             context.SaveChanges();
         }
 
-        public bool AddJob(string name, int resumeId, string companyName, string position, string description, DateTime beginYear, DateTime endYear)
+        public bool AddJobToResume(string name, int resumeId, string companyName, string position, string description, DateTime beginYear, DateTime endYear)
         {
             var job = new JobModel()
             {
@@ -59,7 +59,7 @@ namespace Aibest.Business.Services
             context.SaveChanges();
         }
 
-        public bool AddLanguage(int resumeId, string name, string level)
+        public bool AddLanguageToResume(int resumeId, string name, string level)
         {
             var language = new LanguageModel()
             {

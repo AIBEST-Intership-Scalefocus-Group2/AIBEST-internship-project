@@ -11,34 +11,34 @@ namespace Aibest.Business.Services
     {
         bool CreateResume(string resumeName, int userId);
 
-        bool UpdateResume(string FirstName, string MiddleName, string LastName, string Email, string PhoneNumber, string Address);
+        bool UpdateResume(ResumeModel resume);
 
         bool DeleteResume(int resumeId);
 
         ResumeModel GetResumeById(int resumeId);
 
-        bool AddSkillToResume(int resumeId, string name);
+        bool AddSkillToResume(ResumeModel resume, SkillModel skill);
 
-        bool RemoveSkillFromResume(int resumeId, int skillId);
+        bool RemoveSkillFromResume(int skillId);
 
-        bool AddJob(string name, int resumeId, string companyName, string position, string description, DateTime beginYear, DateTime endYear);
+        bool AddJobToResume(ResumeModel resume,JobModel job);
 
-        bool RemoveJob(int resumeId, int jobId);
+        bool RemoveJob(int jobId);
 
-        bool AddEducation(int resumeId, string name, string country, string major, DateTime beginYear, DateTime endYear);
+        bool AddEducationToResume(ResumeModel resume,EducationModel education);
 
-        bool RemoveEducation(int resumeId, int educationId);
+        bool RemoveEducation(int educationId);
 
-        bool AddLanguage(int resumeId, string name, string level);
+        bool AddLanguageToResume(ResumeModel resume,LanguageModel language);
 
-        bool RemoveLanguage(int resumeId, int languageId);
+        bool RemoveLanguage(int languageId);
 
-        bool AddCertificate(int resumeId, string name, DateTime issuedYear, string description);
+        bool AddCertificateToResume(ResumeModel resume,CertificateModel certificate);
 
-        bool RemoveCertificate(int resumeId, int certificateId);
+        bool RemoveCertificate(int certificateId);
 
         List<ResumeModel> GetResumesByUserId(int userId);
-
+        
         List<CertificateModel> GetCertificatesByResumeId(int resumeId);
         
         List<JobModel> GetJobsByResumeId(int resumeId);
