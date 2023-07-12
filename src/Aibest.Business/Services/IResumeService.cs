@@ -9,7 +9,7 @@ namespace Aibest.Business.Services
 {
     public interface IResumeService
     {
-        bool CreateResume(string resumeName, int userId);
+        bool CreateResume(ResumeModel resume);
 
         bool UpdateResume(ResumeModel resume);
 
@@ -37,7 +37,7 @@ namespace Aibest.Business.Services
 
         bool RemoveCertificate(int certificateId);
 
-        List<ResumeModel> GetResumesByUserId(int userId);
+        List<ResumeModel> GetResumesByUserId(string userId);
         
         List<CertificateModel> GetCertificatesByResumeId(int resumeId);
         

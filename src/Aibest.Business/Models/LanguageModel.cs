@@ -11,7 +11,5 @@ namespace Aibest.Business.Models
         public string Name { get; set; }
 
         public string Level { get; set; }
-
-        public int ResumeId { get; set; }
     }
 }

@@ -19,7 +19,5 @@ namespace Aibest.Business.Models
         public DateTime BeginYear { get; set; }
 
         public DateTime EndYear { get; set; }
-
-        public int ResumeId { get; set; }
     }
 }

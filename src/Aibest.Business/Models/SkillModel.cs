@@ -9,7 +9,5 @@ namespace Aibest.Business.Models
     public class SkillModel : EntityModel
     {
         public string Name { get; set; }
-
-        public int ResumeId { get; set; }
     }
 }
