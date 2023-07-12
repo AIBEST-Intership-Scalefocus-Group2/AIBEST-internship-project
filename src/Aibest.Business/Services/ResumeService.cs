@@ -1,9 +1,8 @@
 ﻿using Aibest.Business.Models;
+using Aibest.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Aibest.Data;
-
 
 namespace Aibest.Business.Services
 {
@@ -81,7 +80,6 @@ namespace Aibest.Business.Services
             };
             context.Skills.Add(skill);
             context.SaveChanges();
-
         }
 
         public bool CreateResume(string resumeName, int userId)
@@ -93,7 +91,6 @@ namespace Aibest.Business.Services
             };
             context.Resumes.Add(resume);
             context.SaveChanges();
-            
         }
 
         public bool DeleteResume(int resumeId)
@@ -105,13 +102,42 @@ namespace Aibest.Business.Services
                 context.SaveChanges();
                 return true;
             }
+        }
 
+        public List<CertificateModel> GetCertificatesByResumeId(int resumeId)
+        {
+            return context.Certificates.Where(c => c.ResumeId == resumeId).ToList();
+        }
+
+        public List<EducationModel> GetEducationsByResumeId(int resumeId)
+        {
+            return context.Educations.Where(c => c.ResumeId == resumeId).ToList();
+        }
+
+        public List<JobModel> GetJobsByResumeId(int resumeId)
+        {
+            return context.Jobs.Where(c => c.ResumeId == resumeId).ToList();
+        }
+
+        public List<LanguageModel> GetLanguagesByResumeId(int resumeId)
+        {
+            return context.Languages.Where(c => c.ResumeId == resumeId).ToList();
         }
 
         public bool GetResumeById(int resumeId)
         {
             var resume = context.Resumes.FirstOrDefault(r => r.Id == resumeId);
-                }
+        }
+
+        public List<ResumeModel> GetResumesByUserId(int userId)
+        {
+            var resumes = context.Resumes.Where(r => r.UserId == userId).ToList();
+        }
+
+        public List<SkillModel> GetSkillsByResumeId(int resumeId)
+        {
+            return context.Skills.Where(c => c.ResumeId == resumeId).ToList();
+        }
 
         public bool RemoveCertificate(int resumeId, int certificateId)
         {
@@ -147,7 +173,6 @@ namespace Aibest.Business.Services
                 return true;
             }
             return false;
-            
         }
 
         public bool RemoveLanguage(int resumeId, int languageId)
@@ -189,6 +214,11 @@ namespace Aibest.Business.Services
                 return true;
             }
             return false;
+        }
+
+        ResumeModel IResumeService.GetResumeById(int resumeId)
+        {
+            return context.Resumes.Where(c => c.Id == resumeId).FirstOrDefault();
         }
     }
 }
