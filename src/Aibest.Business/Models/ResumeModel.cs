@@ -17,6 +17,8 @@ namespace Aibest.Business.Models
             Certificates = new HashSet<CertificateModel>();
         }
 
+        public string Name { get; set; }
+
         public string UserId { get; set; }
 
         public string FirstName { get; set; }
@@ -30,6 +32,8 @@ namespace Aibest.Business.Models
         public string PhoneNumber { get; set; }
 
         public string Address { get; set; }
+
+        public string Description { get; set; }
 
         public ICollection<SkillModel> Skills { get; }
 

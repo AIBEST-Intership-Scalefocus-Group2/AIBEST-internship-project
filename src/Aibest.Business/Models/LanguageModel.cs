@@ -8,7 +8,7 @@ namespace Aibest.Business.Models
 {
     public class LanguageModel : EntityModel
     {
-        public string LanguageName { get; set; }
+        public string Name { get; set; }
 
         public string Level { get; set; }
 

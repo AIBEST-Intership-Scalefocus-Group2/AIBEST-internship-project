@@ -22,6 +22,9 @@ namespace Aibest.Data
         }
 
         [Required]
+        public string Name { get; set; }
+
+        [Required]
         public string UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
@@ -40,6 +43,8 @@ namespace Aibest.Data
         public string PhoneNumber { get; set; }
 
         public string Address { get; set; }
+
+        public string Description { get; set; }
 
         public ICollection<Skill> Skills { get; }
         
