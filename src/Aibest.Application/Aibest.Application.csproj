@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Aibest.Business\Aibest.Business.csproj" />
     <ProjectReference Include="..\Aibest.Data\Aibest.Data.csproj" />
   </ItemGroup>
 
