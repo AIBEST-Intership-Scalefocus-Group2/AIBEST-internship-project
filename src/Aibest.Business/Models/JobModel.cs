@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aibest.Business.Models
 {
     public class JobModel : EntityModel
     {
+        [Required]
         public string Name { get; set; }
 
+        [Required]
         public string CompanyName { get; set; }
 
+        [Required]
         public string Position { get; set; }
 
         public string Description { get; set; }
