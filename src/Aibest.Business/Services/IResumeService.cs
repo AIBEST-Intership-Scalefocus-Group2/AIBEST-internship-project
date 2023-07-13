@@ -1,9 +1,5 @@
-﻿using System;
+﻿using Aibest.Business.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Aibest.Business.Models;
 
 namespace Aibest.Business.Services
 {
@@ -17,36 +13,36 @@ namespace Aibest.Business.Services
 
         ResumeModel GetResumeById(int resumeId);
 
-        bool AddSkillToResume(ResumeModel resume, SkillModel skill);
+        bool AddSkillToResume(int resumeId, SkillModel skill);
 
-        bool RemoveSkillFromResume(int skillId);
+        bool RemoveSkill(int skillId);
 
-        bool AddJobToResume(ResumeModel resume,JobModel job);
+        bool AddJobToResume(int resumeId, JobModel job);
 
         bool RemoveJob(int jobId);
 
-        bool AddEducationToResume(ResumeModel resume,EducationModel education);
+        bool AddEducationToResume(int resumeId, EducationModel education);
 
         bool RemoveEducation(int educationId);
 
-        bool AddLanguageToResume(ResumeModel resume,LanguageModel language);
+        bool AddLanguageToResume(int resumeId, LanguageModel language);
 
         bool RemoveLanguage(int languageId);
 
-        bool AddCertificateToResume(ResumeModel resume,CertificateModel certificate);
+        bool AddCertificateToResume(int resumeId, CertificateModel certificate);
 
         bool RemoveCertificate(int certificateId);
 
         List<ResumeModel> GetResumesByUserId(string userId);
-        
+
         List<CertificateModel> GetCertificatesByResumeId(int resumeId);
-        
+
         List<JobModel> GetJobsByResumeId(int resumeId);
-        
+
         List<LanguageModel> GetLanguagesByResumeId(int resumeId);
-        
+
         List<SkillModel> GetSkillsByResumeId(int resumeId);
-        
+
         List<EducationModel> GetEducationsByResumeId(int resumeId);
     }
 }

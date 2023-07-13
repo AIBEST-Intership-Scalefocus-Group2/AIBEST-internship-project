@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Aibest.Data
 {
-    public class Job : Entity
+    public class Job : ResumeRelatedEntity
     {
         [Required]
         public string Name { get; set; }
@@ -20,10 +20,5 @@ namespace Aibest.Data
         public DateTime BeginYear { get; set; }
         
         public DateTime EndYear { get; set; }
-
-        public int ResumeId { get; set; }
-
-        [ForeignKey(nameof(ResumeId))]
-        public Resume Resume { get; set; }
     }
 }
