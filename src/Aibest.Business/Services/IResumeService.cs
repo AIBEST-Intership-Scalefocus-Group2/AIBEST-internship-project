@@ -5,33 +5,33 @@ namespace Aibest.Business.Services
 {
     public interface IResumeService
     {
-        bool CreateResume(ResumeModel resume);
+        int CreateResume(ResumeModel resume);
 
-        bool UpdateResume(ResumeModel resume);
+        int UpdateResume(ResumeModel resume);
 
-        bool DeleteResume(int resumeId);
+        int DeleteResume(int resumeId);
 
         ResumeModel GetResumeById(int resumeId);
 
-        bool AddSkillToResume(int resumeId, SkillModel skill);
+        int AddSkillToResume(int resumeId, SkillModel skill);
 
-        bool RemoveSkill(int skillId);
+        int RemoveSkill(int skillId);
 
-        bool AddJobToResume(int resumeId, JobModel job);
+        int AddJobToResume(int resumeId, JobModel job);
 
-        bool RemoveJob(int jobId);
+        int RemoveJob(int jobId);
 
-        bool AddEducationToResume(int resumeId, EducationModel education);
+        int AddEducationToResume(int resumeId, EducationModel education);
 
-        bool RemoveEducation(int educationId);
+        int RemoveEducation(int educationId);
 
-        bool AddLanguageToResume(int resumeId, LanguageModel language);
+        int AddLanguageToResume(int resumeId, LanguageModel language);
 
-        bool RemoveLanguage(int languageId);
+        int RemoveLanguage(int languageId);
 
-        bool AddCertificateToResume(int resumeId, CertificateModel certificate);
+        int AddCertificateToResume(int resumeId, CertificateModel certificate);
 
-        bool RemoveCertificate(int certificateId);
+        int RemoveCertificate(int certificateId);
 
         List<ResumeModel> GetResumesByUserId(string userId);
 

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Aibest.Data
-{
+{   
     public class Language : ResumeRelatedEntity
     {
         [Required]

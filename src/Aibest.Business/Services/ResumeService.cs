@@ -1,5 +1,6 @@
 ﻿using Aibest.Business.Models;
 using Aibest.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,27 +13,25 @@ namespace Aibest.Business.Services
         public ResumeService(ApplicationDbContext context)
         {
             this.context = context;
-            IsUserOwnsThat<Certificate>("userId", 1);
         }
 
         public bool IsUserOwnsThatResume(string userId, int resumeId) =>
             this.context.Resumes.Any(r => r.UserId == userId && r.Id == resumeId);
 
         public bool IsUserOwnsThat<T>(string userId, int entityId)
-            where T : ResumeRelatedEntity =>
+             where T : ResumeRelatedEntity =>
             this.context.Set<T>().Any(c => c.Resume.UserId == userId && c.Id == entityId);
 
-        private bool ResumeExists(int resumeId)
-        {
-            return context.Resumes.Any(r => r.Id == resumeId);
-        }
+        private bool ResumeExists(int resumeId) =>
+           this.context.Resumes.Any(r => r.Id == resumeId);
 
-        public bool AddCertificateToResume(int resumeId, CertificateModel certificate)
+        public int AddCertificateToResume(int resumeId, CertificateModel certificate)
         {
-            if (!ResumeExists(resumeId))
+            if (!ResumeExists(resumeId) && IsUserOwnsThatResume("userId", resumeId))
             {
-                return false;
+                return -1;
             }
+
             var certificateNew = new Certificate()
             {
                 ResumeId = resumeId,
@@ -42,14 +41,14 @@ namespace Aibest.Business.Services
             };
             context.Certificates.Add(certificateNew);
             context.SaveChanges();
-            return true;
+            return resumeId;
         }
 
-        public bool AddEducationToResume(int resumeId, EducationModel education)
+        public int AddEducationToResume(int resumeId, EducationModel education)
         {
-            if (!ResumeExists(resumeId))
+            if (!ResumeExists(resumeId) && IsUserOwnsThatResume("userId", resumeId))
             {
-                return false;
+                return -1;
             }
             var educationNew = new Education()
             {
@@ -63,14 +62,14 @@ namespace Aibest.Business.Services
 
             context.Educations.Add(educationNew);
             context.SaveChanges();
-            return true;
+            return resumeId;
         }
 
-        public bool AddJobToResume(int resumeId, JobModel job)
+        public int AddJobToResume(int resumeId, JobModel job)
         {
-            if (!ResumeExists(resumeId))
+            if (!ResumeExists(resumeId) && IsUserOwnsThatResume("userId", resumeId))
             {
-                return false;
+                return -1;
             }
             var jobNew = new Job()
             {
@@ -85,20 +84,20 @@ namespace Aibest.Business.Services
 
             context.Jobs.Add(jobNew);
             context.SaveChanges();
-            return true;
+            return resumeId;
         }
 
-        public bool AddLanguageToResume(int resumeId, LanguageModel language)
+        public int AddLanguageToResume(int resumeId, LanguageModel language)
         {
-            if (!ResumeExists(resumeId))
+            if (!ResumeExists(resumeId) && IsUserOwnsThatResume("userId", resumeId))
             {
-                return false;
+                return -1;
             }
-            string[] levels = { "a1", "a2", "b1", "b2", "c1", "c2" };
-            bool levelExists = levels.Any(l => l == language.Level);
+
+            bool levelExists = Enum.TryParse(language.Level, true, out Levels result);
             if (!levelExists)
             {
-                return false;
+                return -1;
             }
             var languageNew = new Language()
             {
@@ -106,16 +105,17 @@ namespace Aibest.Business.Services
                 Name = language.Name,
                 Level = language.Level,
             };
+            //Levels.Parse(language.Level)
             context.Languages.Add(languageNew);
             context.SaveChanges();
-            return true;
+            return resumeId;
         }
 
-        public bool AddSkillToResume(int resumeId, SkillModel skill)
+        public int AddSkillToResume(int resumeId, SkillModel skill)
         {
-            if (!ResumeExists(resumeId))
+            if (!ResumeExists(resumeId) && IsUserOwnsThatResume("userId", resumeId))
             {
-                return false;
+                return -1;
             }
             var skillNew = new Skill()
             {
@@ -124,10 +124,10 @@ namespace Aibest.Business.Services
             };
             context.Skills.Add(skillNew);
             context.SaveChanges();
-            return true;
+            return resumeId;
         }
 
-        public bool CreateResume(ResumeModel resume)
+        public int CreateResume(ResumeModel resume)
         {
             var resumeNew = new Resume()
             {
@@ -136,23 +136,23 @@ namespace Aibest.Business.Services
             };
             context.Resumes.Add(resumeNew);
             context.SaveChanges();
-            return true;
+            return resume.Id;
         }
 
-        public bool DeleteResume(int resumeId)
+        public int DeleteResume(int resumeId)
         {
             if (!ResumeExists(resumeId))
             {
-                return false;
+                return -1;
             }
             var resume = context.Resumes.FirstOrDefault(r => r.Id == resumeId);
             if (resume != null)
             {
                 context.Resumes.Remove(resume);
                 context.SaveChanges();
-                return true;
+                return resumeId;
             }
-            return false;
+            return -1;
         }
 
         public List<CertificateModel> GetCertificatesByResumeId(int resumeId)
@@ -241,7 +241,7 @@ namespace Aibest.Business.Services
                 languagesModel.Add(new LanguageModel()
                 {
                     Name = language.Name,
-                    Level = language.Level
+                    Level = language.Level,
                 });
             }
 
@@ -310,72 +310,79 @@ namespace Aibest.Business.Services
             return skillsModel;
         }
 
-        public bool RemoveCertificate(int certificateId)
+        public int RemoveCertificate(int certificateId)
         {
             var certificate = context.Certificates.FirstOrDefault(c => c.Id == certificateId);
-            if (certificate != null)
+            if (certificate == null && !IsUserOwnsThat<Certificate>("userId", certificateId))
             {
-                context.Certificates.Remove(certificate);
-                context.SaveChanges();
-                return true;
+                return -1;
             }
-            return false;
+
+            context.Certificates.Remove(certificate);
+            context.SaveChanges();
+            return certificateId;
+
         }
 
-        public bool RemoveEducation(int educationId)
+        public int RemoveEducation(int educationId)
         {
             var education = context.Educations.FirstOrDefault(e => e.Id == educationId);
-            if (education != null)
+            if (education == null && !IsUserOwnsThat<Education>("userId", educationId))
             {
-                context.Educations.Remove(education);
-                context.SaveChanges();
-                return true;
+                return -1;
             }
-            return false;
+
+            context.Educations.Remove(education);
+            context.SaveChanges();
+            return educationId;
         }
 
-        public bool RemoveJob(int jobId)
+        public int RemoveJob(int jobId)
         {
             var job = context.Jobs.FirstOrDefault(j => j.Id == jobId);
-            if (job != null)
+            if (job == null && !IsUserOwnsThat<Job>("userId", jobId))
             {
-                context.Jobs.Remove(job);
-                context.SaveChanges();
-                return true;
+                return -1;
             }
-            return false;
+
+            context.Jobs.Remove(job);
+            context.SaveChanges();
+            return jobId;
+
         }
 
-        public bool RemoveLanguage(int languageId)
+        public int RemoveLanguage(int languageId)
         {
             var language = context.Languages.FirstOrDefault(l => l.Id == languageId);
-            if (language != null)
+            if (language == null && !IsUserOwnsThat<Language>("userId", languageId))
             {
-                context.Languages.Remove(language);
-                context.SaveChanges();
-                return true;
+                return -1;
             }
-            return false;
+
+            context.Languages.Remove(language);
+            context.SaveChanges();
+            return languageId;
         }
 
-        public bool RemoveSkill(int skillId)
+        public int RemoveSkill(int skillId)
         {
             var skill = context.Skills.FirstOrDefault(s => s.Id == skillId);
-            if (skill != null)
+            if (skill == null && !IsUserOwnsThat<Skill>("userId", skillId))
             {
-                context.Skills.Remove(skill);
-                context.SaveChanges();
-                return true;
+                return -1;
             }
-            return false;
+
+            context.Skills.Remove(skill);
+            context.SaveChanges();
+            return skillId;
         }
 
-        public bool UpdateResume(ResumeModel resumeModel)
+        public int UpdateResume(ResumeModel resumeModel)
         {
             var resume = context.Resumes.FirstOrDefault(r => r.Id == resumeModel.Id);
-            if (resume == null)
+            if (resume == null && !IsUserOwnsThatResume("userId", resumeModel.Id))
             {
-                return false;
+                return -1;
             }
             resume.FirstName = resumeModel.FirstName;
             resume.MiddleName = resumeModel.MiddleName;
@@ -384,7 +391,7 @@ namespace Aibest.Business.Services
             resume.PhoneNumber = resumeModel.PhoneNumber;
             resume.Address = resumeModel.Address;
             context.SaveChanges();
-            return true;
+            return resumeModel.Id;
         }
         //TODO: return id when adding
         //TODO: IEnumerable lang level
