@@ -160,81 +160,99 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/DeleteCertificate/5
+        // POST: /Resumes/DeleteCertificate/{resumeId}/{certificateId}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteCertificate([FromRoute] int certificateId)
+        public IActionResult DeleteCertificate([FromRoute] int resumeId, [FromRoute] int certificateId)
         {
             int result = _resumeService.RemoveCertificate(certificateId);
 
             if (result != -1)
             {
-                return RedirectToAction("Edit", new { id = result });
+                return RedirectToAction("Edit", new { id = resumeId });
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Failed to delete the certificate.");
             }
 
-
-            return RedirectToAction("Index"); //
+            return RedirectToAction("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/DeleteEducation/5
+        // POST: /Resumes/DeleteEducation/{resumeId}/{educationId}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteEducation([FromRoute] int educationId)
+        public IActionResult DeleteEducation([FromRoute] int resumeId, [FromRoute] int educationId)
         {
             int result = _resumeService.RemoveEducation(educationId);
 
             if (result != -1)
             {
-                return RedirectToAction("Edit", new { id = result });
+                return RedirectToAction("Edit", new { id = resumeId });
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Failed to delete the education.");
             }
 
-
-            return RedirectToAction("Index"); // 
+            return RedirectToAction("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/DeleteJob/5
+        // POST: /Resumes/DeleteJob/{resumeId}/{jobId}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteJob([FromRoute] int jobId)
+        public IActionResult DeleteJob([FromRoute] int resumeId, [FromRoute] int jobId)
         {
             int result = _resumeService.RemoveJob(jobId);
 
             if (result != -1)
             {
-                return RedirectToAction("Edit", new { id = result });
+                return RedirectToAction("Edit", new { id = resumeId });
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Failed to delete the job.");
             }
 
-            return RedirectToAction("Index"); // 
+            return RedirectToAction("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/DeleteLanguage/5
+        // POST: /Resumes/DeleteLanguage/{resumeId}/{languageId}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteLanguage([FromRoute] int languageId)
+        public IActionResult DeleteLanguage([FromRoute] int resumeId, [FromRoute] int languageId)
         {
             int result = _resumeService.RemoveLanguage(languageId);
 
             if (result != -1)
             {
-                return RedirectToAction("Edit", new { id = result });
+                return RedirectToAction("Edit", new { id = resumeId });
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Failed to delete the language.");
             }
 
-            return RedirectToAction("Index");//
+            return RedirectToAction("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/DeleteSkill/5
+        // POST: /Resumes/DeleteSkill/{resumeId}/{skillId}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteSkill([FromRoute] int skillId)
+        public IActionResult DeleteSkill([FromRoute] int resumeId, [FromRoute] int skillId)
         {
             int result = _resumeService.RemoveSkill(skillId);
 
             if (result != -1)
             {
-                return RedirectToAction("Edit", new { id = result });
+                return RedirectToAction("Edit", new { id = resumeId });
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Failed to delete the skill.");
             }
 
-            return RedirectToAction("Index"); //
+            return RedirectToAction("Edit", new { id = resumeId });
         }
     }
 }
