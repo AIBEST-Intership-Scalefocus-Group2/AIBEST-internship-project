@@ -50,8 +50,8 @@ namespace Aibest.Application.Controllers
             return View(model);
         }
 
-        // POST: /Resumes/AddLanguage/5
         [HttpPost]
+        [Route("/resumes/addlanguage/{resumeId}")]
         [ValidateAntiForgeryToken]
         public IActionResult AddLanguage([FromRoute] int resumeId, LanguageModel model)
         {
@@ -72,8 +72,8 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/AddSkill/5
         [HttpPost]
+        [Route("/resumes/addskill/{resumeId}")]
         [ValidateAntiForgeryToken]
         public IActionResult AddSkill([FromRoute] int resumeId, SkillModel model)
         {
@@ -94,8 +94,8 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/AddCertificate/5
         [HttpPost]
+        [Route("/resumes/addcertificate/{resumeId}")]
         [ValidateAntiForgeryToken]
         public IActionResult AddCertificate([FromRoute] int resumeId, CertificateModel model)
         {
@@ -116,8 +116,8 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/AddEducation/5
         [HttpPost]
+        [Route("/resumes/addeducation/{resumeId}")]
         [ValidateAntiForgeryToken]
         public IActionResult AddEducation([FromRoute] int resumeId, EducationModel model)
         {
@@ -138,8 +138,8 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/AddJob/5
         [HttpPost]
+        [Route("/resumes/addjob/{resumeId}")]
         [ValidateAntiForgeryToken]
         public IActionResult AddJob([FromRoute] int resumeId, JobModel model)
         {
@@ -160,8 +160,8 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/DeleteCertificate/{resumeId}/{certificateId}
         [HttpPost]
+        [Route("/resumes/deletecertificate/{resumeId}/{certificateId}")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteCertificate([FromRoute] int resumeId, [FromRoute] int certificateId)
         {
@@ -179,8 +179,8 @@ namespace Aibest.Application.Controllers
             return RedirectToAction("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/DeleteEducation/{resumeId}/{educationId}
         [HttpPost]
+        [Route("/resumes/deleteeducation/{resumeId}/{educationId}")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteEducation([FromRoute] int resumeId, [FromRoute] int educationId)
         {
@@ -198,8 +198,8 @@ namespace Aibest.Application.Controllers
             return RedirectToAction("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/DeleteJob/{resumeId}/{jobId}
         [HttpPost]
+        [Route("/resumes/deletejob/{resumeId}/{jobId}")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteJob([FromRoute] int resumeId, [FromRoute] int jobId)
         {
@@ -217,8 +217,8 @@ namespace Aibest.Application.Controllers
             return RedirectToAction("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/DeleteLanguage/{resumeId}/{languageId}
         [HttpPost]
+        [Route("/resumes/deletelanguage/{resumeId}/{languageId}")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteLanguage([FromRoute] int resumeId, [FromRoute] int languageId)
         {
@@ -236,8 +236,8 @@ namespace Aibest.Application.Controllers
             return RedirectToAction("Edit", new { id = resumeId });
         }
 
-        // POST: /Resumes/DeleteSkill/{resumeId}/{skillId}
         [HttpPost]
+        [Route("/resumes/deleteskill/{resumeId}/{skillId}")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteSkill([FromRoute] int resumeId, [FromRoute] int skillId)
         {
