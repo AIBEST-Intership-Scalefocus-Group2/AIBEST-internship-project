@@ -46,6 +46,8 @@ namespace Aibest.Data
 
         public string Description { get; set; }
 
+        public byte[] ImageBytes { get; set; }
+
         public ICollection<Skill> Skills { get; }
         
         public ICollection<Job> Jobs { get; }
