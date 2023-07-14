@@ -7,18 +7,15 @@ namespace Aibest.Business.Models
     {
         public ResumeModel()
         {
-            Skills = new HashSet<SkillModel>();
-            Jobs = new HashSet<JobModel>();
-            Educations = new HashSet<EducationModel>();
-            Languages = new HashSet<LanguageModel>();
-            Certificates = new HashSet<CertificateModel>();
+            Skills = new List<SkillModel>();
+            Jobs = new List<JobModel>();
+            Educations = new List<EducationModel>();
+            Languages = new List<LanguageModel>();
+            Certificates = new List<CertificateModel>();
         }
 
         [Required]
         public string Name { get; set; }
-
-        [Required]
-        public string UserId { get; set; }
 
         [Required]
         public string FirstName { get; set; }
@@ -36,14 +33,14 @@ namespace Aibest.Business.Models
 
         public string Description { get; set; }
 
-        public ICollection<SkillModel> Skills { get; }
+        public IList<SkillModel> Skills { get; }
 
-        public ICollection<JobModel> Jobs { get; }
+        public IList<JobModel> Jobs { get; }
 
-        public ICollection<EducationModel> Educations { get; }
+        public IList<EducationModel> Educations { get; }
 
-        public ICollection<LanguageModel> Languages { get; }
+        public IList<LanguageModel> Languages { get; }
 
-        public ICollection<CertificateModel> Certificates { get; }
+        public IList<CertificateModel> Certificates { get; }
     }
 }

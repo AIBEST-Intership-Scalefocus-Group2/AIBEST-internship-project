@@ -1,3 +1,4 @@
+using Aibest.Business.Services;
 using Aibest.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<IResumeService, ResumeService>();
+
 var app = builder.Build();
+
+
 
 try
 {
@@ -30,6 +35,7 @@ catch (System.Exception)
 {
     app.Logger.LogInformation("Database creation failed");
 }
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

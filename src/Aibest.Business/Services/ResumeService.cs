@@ -1,6 +1,7 @@
 ﻿using Aibest.Business.Models;
 using Aibest.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,19 +20,9 @@ namespace Aibest.Business.Services
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public bool IsUserOwnsThatResume(int resumeId) =>
-            this.context.Resumes.Any(r => r.UserId == GetCurrentUserId() && r.Id == resumeId);
-
-        public bool IsUserOwnsThat<T>(int entityId)
-             where T : ResumeRelatedEntity =>
-            this.context.Set<T>().Any(c => c.Resume.UserId == GetCurrentUserId() && c.Id == entityId);
-
-        private bool ResumeExists(int resumeId) =>
-           this.context.Resumes.Any(r => r.Id == resumeId);
-
         public int AddCertificateToResume(int resumeId, CertificateModel certificate)
         {
-            if (!ResumeExists(resumeId) && IsUserOwnsThatResume(resumeId))
+            if (!ValidateResume(resumeId))
             {
                 return -1;
             }
@@ -50,7 +41,7 @@ namespace Aibest.Business.Services
 
         public int AddEducationToResume(int resumeId, EducationModel education)
         {
-            if (!ResumeExists(resumeId) && IsUserOwnsThatResume(resumeId))
+            if (!ValidateResume(resumeId))
             {
                 return -1;
             }
@@ -88,12 +79,12 @@ namespace Aibest.Business.Services
 
             context.Jobs.Add(jobNew);
             context.SaveChanges();
-            return resumeId;
+            return jobNew.Id;
         }
 
         public int AddLanguageToResume(int resumeId, LanguageModel language)
         {
-            if (!ResumeExists(resumeId) && IsUserOwnsThatResume(resumeId))
+            if (!ValidateResume(resumeId))
             {
                 return -1;
             }
@@ -117,7 +108,7 @@ namespace Aibest.Business.Services
 
         public int AddSkillToResume(int resumeId, SkillModel skill)
         {
-            if (!ResumeExists(resumeId) && IsUserOwnsThatResume(resumeId))
+            if (!ValidateResume(resumeId))
             {
                 return -1;
             }
@@ -136,147 +127,67 @@ namespace Aibest.Business.Services
             var resumeNew = new Resume()
             {
                 Name = resume.Name,
-                UserId = resume.UserId
+                LastName = resume.LastName,
+                FirstName = resume.FirstName,
+                UserId = GetCurrentUserId(),
             };
             context.Resumes.Add(resumeNew);
             context.SaveChanges();
-            return resume.Id;
+            return resumeNew.Id;
         }
 
-        public int DeleteResume(int resumeId)
+        public bool DeleteResume(int resumeId)
         {
-            if (!ResumeExists(resumeId))
-            {
-                return -1;
-            }
             var resume = context.Resumes.FirstOrDefault(r => r.Id == resumeId);
             if (resume == null)
             {
-                return -1;
+                return false;
             }
             context.Resumes.Remove(resume);
             context.SaveChanges();
-            return resumeId;
+            return false;
         }
 
-        public List<CertificateModel> GetCertificatesByResumeId(int resumeId)
+        public ResumeModel GetResume(int resumeId)
         {
-            if (!ResumeExists(resumeId))
-            {
-                return new List<CertificateModel>();
-            }
-            var certificates = context.Certificates.Where(c => c.ResumeId == resumeId).ToList();
-            var certificatesModel = new List<CertificateModel>();
+            var resume = context
+                .Resumes
+                .Where(r => r.Id == resumeId && r.UserId == GetCurrentUserId())
+                .Include(x => x.Skills)
+                .FirstOrDefault();
 
-            foreach (var certificate in certificates)
+            if (resume == null)
             {
-                certificatesModel.Add(new CertificateModel()
-                {
-                    Name = certificate.Name,
-                    IssuedYear = certificate.IssuedYear,
-                    Description = certificate.Description,
-                });
+                return null;
             }
 
-            return certificatesModel;
-        }
-
-        public List<EducationModel> GetEducationsByResumeId(int resumeId)
-        {
-            if (!ResumeExists(resumeId))
-            {
-                return new List<EducationModel>();
-            }
-            var educations = context.Educations.Where(c => c.ResumeId == resumeId).ToList();
-            var educationsModel = new List<EducationModel>();
-
-            foreach (var education in educations)
-            {
-                educationsModel.Add(new EducationModel()
-                {
-                    Name = education.Name,
-                    BeginYear = education.BeginYear,
-                    EndYear = education.EndYear,
-                    Country = education.Country,
-                    Major = education.Major,
-                });
-            }
-
-            return educationsModel;
-        }
-
-        public List<JobModel> GetJobsByResumeId(int resumeId)
-        {
-            if (!ResumeExists(resumeId))
-            {
-                return new List<JobModel>();
-            }
-            var jobs = context.Jobs.Where(c => c.ResumeId == resumeId).ToList();
-            var jobsModel = new List<JobModel>();
-
-            foreach (var job in jobs)
-            {
-                jobsModel.Add(new JobModel()
-                {
-                    Name = job.Name,
-                    BeginYear = job.BeginYear,
-                    EndYear = job.EndYear,
-                    CompanyName = job.CompanyName,
-                    Description = job.Description,
-                    Position = job.Position
-                });
-            }
-
-            return jobsModel;
-        }
-
-        public List<LanguageModel> GetLanguagesByResumeId(int resumeId)
-        {
-            if (!ResumeExists(resumeId))
-            {
-                return new List<LanguageModel>();
-            }
-            var languages = context.Languages.Where(c => c.ResumeId == resumeId).ToList();
-            ;
-            var languagesModel = new List<LanguageModel>();
-
-            foreach (var language in languages)
-            {
-                languagesModel.Add(new LanguageModel()
-                {
-                    Name = language.Name,
-                    Level = language.Level,
-                });
-            }
-
-            return languagesModel;
-        }
-
-        public ResumeModel GetResumeById(int resumeId)
-        {
-            if (!ResumeExists(resumeId))
-            {
-                return new ResumeModel();
-            }
-            var resumes = context.Resumes.FirstOrDefault(r => r.Id == resumeId);
             var resumeModel = new ResumeModel()
             {
                 Id = resumeId,
-                Name = resumes.Name,
-                UserId = resumes.Name,
-                FirstName = resumes.Name,
-                MiddleName = resumes.Name,
-                LastName = resumes.Name,
-                EmailAddress = resumes.Name,
-                PhoneNumber = resumes.Name,
-                Address = resumes.Name,
+                Name = resume.Name,
+                FirstName = resume.FirstName,
+                MiddleName = resume.MiddleName,
+                LastName = resume.LastName,
+                EmailAddress = resume.EmailAddress,
+                PhoneNumber = resume.PhoneNumber,
+                Address = resume.Address,
             };
+
+            foreach (var skill in resume.Skills)
+            {
+                resumeModel.Skills.Add(new SkillModel
+                {
+                    Id = skill.Id,
+                    Name = skill.Name,
+                });
+            }
+
             return resumeModel;
         }
 
-        public List<ResumeModel> GetResumesByUserId(string userId)
+        public IEnumerable<ResumeModel> GetResumes()
         {
-            var resumes = context.Resumes.Where(r => r.UserId == userId).ToList();
+            var resumes = context.Resumes.Where(r => r.UserId == GetCurrentUserId()).ToList();
             var resumesModel = new List<ResumeModel>();
 
             foreach (var resume in resumes)
@@ -285,7 +196,6 @@ namespace Aibest.Business.Services
                 {
                     Id = resume.Id,
                     Name = resume.Name,
-                    UserId = userId,
                     FirstName = resume.FirstName,
                     MiddleName = resume.MiddleName,
                     LastName = resume.LastName,
@@ -296,92 +206,6 @@ namespace Aibest.Business.Services
             }
 
             return resumesModel;
-        }
-
-        public List<SkillModel> GetSkillsByResumeId(int resumeId)
-        {
-            if (!ResumeExists(resumeId))
-            {
-                return new List<SkillModel>();
-            }
-            var skills = context.Skills.Where(c => c.ResumeId == resumeId).ToList();
-            var skillsModel = new List<SkillModel>();
-
-            foreach (var skill in skills)
-            {
-                skillsModel.Add(new SkillModel()
-                {
-                    Name = skill.Name,
-                });
-            }
-
-            return skillsModel;
-        }
-
-        public int RemoveCertificate(int certificateId)
-        {
-            var certificate = context.Certificates.FirstOrDefault(c => c.Id == certificateId);
-            if (certificate == null && !IsUserOwnsThat<Certificate>(certificateId))
-            {
-                return -1;
-            }
-
-            context.Certificates.Remove(certificate);
-            context.SaveChanges();
-            return certificateId;
-        }
-
-        public int RemoveEducation(int educationId)
-        {
-            var education = context.Educations.FirstOrDefault(e => e.Id == educationId);
-            if (education == null && !IsUserOwnsThat<Education>(educationId))
-            {
-                return -1;
-            }
-
-            context.Educations.Remove(education);
-            context.SaveChanges();
-            return educationId;
-        }
-
-        public int RemoveJob(int jobId)
-        {
-            var job = context.Jobs.FirstOrDefault(j => j.Id == jobId);
-            if (job == null && !IsUserOwnsThat<Job>(jobId))
-            {
-                return -1;
-            }
-
-            context.Jobs.Remove(job);
-            context.SaveChanges();
-            return jobId;
-
-        }
-
-        public int RemoveLanguage(int languageId)
-        {
-            var language = context.Languages.FirstOrDefault(l => l.Id == languageId);
-            if (language == null && !IsUserOwnsThat<Language>(languageId))
-            {
-                return -1;
-            }
-
-            context.Languages.Remove(language);
-            context.SaveChanges();
-            return languageId;
-        }
-
-        public int RemoveSkill(int skillId)
-        {
-            var skill = context.Skills.FirstOrDefault(s => s.Id == skillId);
-            if (skill == null && !IsUserOwnsThat<Skill>(skillId))
-            {
-                return -1;
-            }
-
-            context.Skills.Remove(skill);
-            context.SaveChanges();
-            return skillId;
         }
 
         public int UpdateResume(ResumeModel resumeModel)
@@ -400,17 +224,47 @@ namespace Aibest.Business.Services
             context.SaveChanges();
             return resumeModel.Id;
         }
-        //TODO: return id when adding
-        //TODO: IEnumerable lang level
 
-        private string GetCurrentUserId()
+        public bool RemoveResumeRelatedEntity<T>(int id)
+            where T : ResumeRelatedEntity
         {
-            return this.httpContextAccessor?
+            try
+            {
+                var entity = context.Set<T>().FirstOrDefault(s => s.Id == id);
+                if (entity == null && !IsUserOwnsThat<T>(id))
+                {
+                    return false;
+                }
+
+                context.Set<T>().Remove(entity);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private bool ValidateResume(int resumeId) =>
+            context.Resumes.Any(r => r.Id == resumeId && r.UserId == GetCurrentUserId());
+
+        private string GetCurrentUserId() =>
+            this.httpContextAccessor?
                 .HttpContext?
                 .User?
                 .Claims?
                 .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?
                 .Value;
-        }
+
+        private bool IsUserOwnsThatResume(int resumeId) =>
+            this.context.Resumes.Any(r => r.UserId == GetCurrentUserId() && r.Id == resumeId);
+
+        private bool IsUserOwnsThat<T>(int entityId)
+             where T : ResumeRelatedEntity =>
+            this.context.Set<T>().Any(c => c.Resume.UserId == GetCurrentUserId() && c.Id == entityId);
+
+        private bool ResumeExists(int resumeId) =>
+           this.context.Resumes.Any(r => r.Id == resumeId);
     }
 }
