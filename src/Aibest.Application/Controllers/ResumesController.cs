@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Aibest.Business.Models;
 using Aibest.Business.Services;
+using Aibest.Data;
 
 namespace Aibest.Application.Controllers
 {
@@ -165,9 +166,9 @@ namespace Aibest.Application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteCertificate([FromRoute] int resumeId, [FromRoute] int certificateId)
         {
-            int result = _resumeService.RemoveCertificate(certificateId);
+            bool result = _resumeService.RemoveResumeRelatedEntity<Certificate>(certificateId);
 
-            if (result != -1)
+            if (result)
             {
                 return RedirectToAction("Edit", new { id = resumeId });
             }
