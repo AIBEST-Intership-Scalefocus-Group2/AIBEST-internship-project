@@ -17,7 +17,7 @@ namespace Aibest.Application.Controllers
         // GET: /Resumes/Edit/5
         public IActionResult Edit([FromRoute] int id)
         {
-            ResumeModel resume = _resumeService.GetResumeById(id);
+            ResumeModel resume = _resumeService.GetResume(id);
 
             if (resume != null)
             {
@@ -185,9 +185,9 @@ namespace Aibest.Application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteEducation([FromRoute] int resumeId, [FromRoute] int educationId)
         {
-            int result = _resumeService.RemoveEducation(educationId);
+            bool result = _resumeService.RemoveResumeRelatedEntity<Education>(educationId);
 
-            if (result != -1)
+            if (result)
             {
                 return RedirectToAction("Edit", new { id = resumeId });
             }
@@ -204,9 +204,9 @@ namespace Aibest.Application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteJob([FromRoute] int resumeId, [FromRoute] int jobId)
         {
-            int result = _resumeService.RemoveJob(jobId);
+            bool result = _resumeService.RemoveResumeRelatedEntity<Job>(jobId);
 
-            if (result != -1)
+            if (result)
             {
                 return RedirectToAction("Edit", new { id = resumeId });
             }
@@ -223,9 +223,9 @@ namespace Aibest.Application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteLanguage([FromRoute] int resumeId, [FromRoute] int languageId)
         {
-            int result = _resumeService.RemoveLanguage(languageId);
+            bool result = _resumeService.RemoveResumeRelatedEntity<Language>(languageId);
 
-            if (result != -1)
+            if (result)
             {
                 return RedirectToAction("Edit", new { id = resumeId });
             }
@@ -242,9 +242,9 @@ namespace Aibest.Application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteSkill([FromRoute] int resumeId, [FromRoute] int skillId)
         {
-            int result = _resumeService.RemoveSkill(skillId);
+            bool result = _resumeService.RemoveResumeRelatedEntity<Skill>(skillId);
 
-            if (result != -1)
+            if (result)
             {
                 return RedirectToAction("Edit", new { id = resumeId });
             }
@@ -257,3 +257,4 @@ namespace Aibest.Application.Controllers
         }
     }
 }
+
