@@ -1,5 +1,6 @@
 ﻿using Aibest.Business.Models;
 using Aibest.Business.Services;
+using Aibest.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Aibest.Application.Controllers
 
             return Ok(this.resumeService.CreateResume(model));
         }
+
         [Authorize]
         [HttpPost]
         [Route("/test/resumes")]
@@ -39,6 +41,7 @@ namespace Aibest.Application.Controllers
 
             return Ok(this.resumeService.GetResumes());
         }
+
         [Authorize]
         [HttpGet]
         [Route("/test/resumebyid/{id}")]
@@ -107,7 +110,19 @@ namespace Aibest.Application.Controllers
 
             return Ok(this.resumeService.AddCertificateToResume(id, model));
         }
-        
 
+
+        [Authorize]
+        [HttpPost]
+        [Route("/test/removeskill/{id}")]
+        public IActionResult Remove(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Ok(ModelState.Values.Select(x => x.Errors));
+            }
+
+            return Ok(this.resumeService.RemoveResumeRelatedEntity<Skill>(id));
+        }
     }
 }
