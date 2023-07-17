@@ -34,15 +34,15 @@ namespace Aibest.Application.Controllers
         {
             if (ModelState.IsValid)
             {
-                int isSuccess = _resumeService.UpdateResume(model);
+                bool isSuccess = _resumeService.UpdateResume(model);
 
-                if (isSuccess != -1)
+                if (isSuccess)
                 {
-                    return RedirectToAction("Edit", new { id = model.Id });
+                    return RedirectToEdit(model.Id);
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Failed to update the resume.");
+                    ModelState.AddModelError(string.Empty, "Failed to edit the personal information the resume.");
                 }
             }
 
@@ -54,15 +54,15 @@ namespace Aibest.Application.Controllers
         {
             if (ModelState.IsValid)
             {
-                int result = _resumeService.CreateResume(model);
+                bool isSuccess = _resumeService.CreateResume(model);
 
-                if (result != -1)
+                if (isSuccess)
                 {
-                    return RedirectToAction("Edit", new { id = model.Id });
+                    return RedirectToEdit(model.Id);
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Failed to add the language to the resume.");
+                    ModelState.AddModelError(string.Empty, "Failed to create the resume.");
                 }
             }
 
@@ -81,8 +81,23 @@ namespace Aibest.Application.Controllers
             }
             else
             {
-                return View("Delete", resumeId);
+                TempData["ErrorMessage"] = "Failed to delete the resume.";
+                return RedirectToAction("Index");
             }
+        }
+
+        [HttpGet("/resumes")]
+        public IActionResult Index()
+        {
+            var resumes = _resumeService.GetResumes();
+            string errorMessage = TempData["ErrorMessage"] as string;
+
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+
+                ModelState.AddModelError(string.Empty, errorMessage);
+            }
+            return View(resumes);
         }
 
         [HttpPost("/resumes/{resumeId:int}/add-language")]
@@ -90,11 +105,11 @@ namespace Aibest.Application.Controllers
         {
             if (ModelState.IsValid)
             {
-                int result = _resumeService.AddLanguageToResume(resumeId, model);
+                bool isSuccess = _resumeService.AddLanguageToResume(resumeId, model);
 
-                if (result != -1)
+                if (isSuccess)
                 {
-                    return RedirectToAction("Edit", new { id = resumeId });
+                    return RedirectToEdit(resumeId);
                 }
                 else
                 {
@@ -110,11 +125,11 @@ namespace Aibest.Application.Controllers
         {
             if (ModelState.IsValid)
             {
-                int result = _resumeService.AddSkillToResume(resumeId, model);
+                bool isSuccess = _resumeService.AddSkillToResume(resumeId, model);
 
-                if (result != -1)
+                if (isSuccess)
                 {
-                    return RedirectToAction("Edit", new { id = resumeId });
+                    return RedirectToEdit(resumeId);
                 }
                 else
                 {
@@ -130,11 +145,11 @@ namespace Aibest.Application.Controllers
         {
             if (ModelState.IsValid)
             {
-                int result = _resumeService.AddCertificateToResume(resumeId, model);
+                bool isSuccess = _resumeService.AddCertificateToResume(resumeId, model);
 
-                if (result != -1)
+                if (isSuccess)
                 {
-                    return RedirectToAction("Edit", new { id = resumeId });
+                    return RedirectToEdit(resumeId);
                 }
                 else
                 {
@@ -150,11 +165,11 @@ namespace Aibest.Application.Controllers
         {
             if (ModelState.IsValid)
             {
-                int result = _resumeService.AddEducationToResume(resumeId, model);
+                bool isSuccess = _resumeService.AddEducationToResume(resumeId, model);
 
-                if (result != -1)
+                if (isSuccess)
                 {
-                    return RedirectToAction("Edit", new { id = resumeId });
+                    return RedirectToEdit(resumeId);
                 }
                 else
                 {
@@ -170,11 +185,11 @@ namespace Aibest.Application.Controllers
         {
             if (ModelState.IsValid)
             {
-                int result = _resumeService.AddJobToResume(resumeId, model);
+                bool isSuccess = _resumeService.AddJobToResume(resumeId, model);
 
-                if (result != -1)
+                if (isSuccess)
                 {
-                    return RedirectToAction("Edit", new { id = resumeId });
+                    return RedirectToEdit(resumeId);
                 }
                 else
                 {
@@ -188,89 +203,95 @@ namespace Aibest.Application.Controllers
         [HttpPost("/resumes/{resumeId:int}/delete-certificate/{certificateId}")]
         public IActionResult DeleteCertificate([FromRoute] int resumeId, [FromRoute] int certificateId)
         {
-            bool result = _resumeService.RemoveResumeRelatedEntity<Certificate>(certificateId);
+            bool isSuccess = _resumeService.RemoveResumeRelatedEntity<Certificate>(certificateId);
 
-            if (result)
+            if (isSuccess)
             {
-                return RedirectToAction("Edit", new { id = resumeId });
+                return RedirectToEdit(resumeId);
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "Failed to delete the certificate.");
             }
 
-            return RedirectToAction("Edit", new { id = resumeId });
+            return RedirectToEdit(resumeId);
         }
 
         [HttpPost("/resumes/{resumeId:int}/delete-education/{educationId}")]
         public IActionResult DeleteEducation([FromRoute] int resumeId, [FromRoute] int educationId)
         {
-            bool result = _resumeService.RemoveResumeRelatedEntity<Education>(educationId);
+            bool isSuccess = _resumeService.RemoveResumeRelatedEntity<Education>(educationId);
 
-            if (result)
+            if (isSuccess)
             {
-                return RedirectToAction("Edit", new { id = resumeId });
+                return RedirectToEdit(resumeId);
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "Failed to delete the education.");
             }
 
-            return RedirectToAction("Edit", new { id = resumeId });
+            return RedirectToEdit(resumeId);
         }
 
         [HttpPost("/resumes/{resumeId:int}/delete-job/{jobId}")]
         public IActionResult DeleteJob([FromRoute] int resumeId, [FromRoute] int jobId)
         {
-            bool result = _resumeService.RemoveResumeRelatedEntity<Job>(jobId);
+            bool isSuccess = _resumeService.RemoveResumeRelatedEntity<Job>(jobId);
 
-            if (result)
+            if (isSuccess)
             {
-                return RedirectToAction("Edit", new { id = resumeId });
+                return RedirectToEdit(resumeId);
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "Failed to delete the job.");
             }
 
-            return RedirectToAction("Edit", new { id = resumeId });
+            return RedirectToEdit(resumeId);
         }
 
         [HttpPost]
         [Route("/resumes/{resumeId:int}/delete-language/{languageId}")]
         public IActionResult DeleteLanguage([FromRoute] int resumeId, [FromRoute] int languageId)
         {
-            bool result = _resumeService.RemoveResumeRelatedEntity<Language>(languageId);
+            bool isSuccess = _resumeService.RemoveResumeRelatedEntity<Language>(languageId);
 
-            if (result)
+            if (isSuccess)
             {
-                return RedirectToAction("Edit", new { id = resumeId });
+                return RedirectToEdit(resumeId);
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "Failed to delete the language.");
             }
 
-            return RedirectToAction("Edit", new { id = resumeId });
+            return RedirectToEdit(resumeId);
         }
 
         [HttpPost]
         [Route("/resumes/{resumeId:int}/delete-skill/{skillId}")]
         public IActionResult DeleteSkill([FromRoute] int resumeId, [FromRoute] int skillId)
         {
-            bool result = _resumeService.RemoveResumeRelatedEntity<Skill>(skillId);
+            bool isSuccess = _resumeService.RemoveResumeRelatedEntity<Skill>(skillId);
 
-            if (result)
+            if (isSuccess)
             {
-                return RedirectToAction("Edit", new { id = resumeId });
+                return RedirectToEdit(resumeId);
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "Failed to delete the skill.");
             }
 
+            return RedirectToEdit(resumeId);
+        }
+
+        private IActionResult RedirectToEdit(int resumeId)
+        {
             return RedirectToAction("Edit", new { id = resumeId });
         }
+
     }
 }
 
