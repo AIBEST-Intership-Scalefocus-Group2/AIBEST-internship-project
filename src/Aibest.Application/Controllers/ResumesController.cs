@@ -14,7 +14,7 @@ namespace Aibest.Application.Controllers
             _resumeService = resumeService;
         }
 
-        // GET: /Resumes/Edit/5
+        [HttpGet("/resumes/{resumeId:int}/edit")]
         public IActionResult Edit([FromRoute] int id)
         {
             ResumeModel resume = _resumeService.GetResume(id);
@@ -29,10 +29,8 @@ namespace Aibest.Application.Controllers
             }
         }
 
-        // POST: /Resumes/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, ResumeModel model)
+        [HttpPost("/resumes/{resumeId:int}/edit-personal-information")]
+        public IActionResult EditPersonalInformation([FromRoute] int id, ResumeModel model)
         {
             if (ModelState.IsValid)
             {
@@ -51,9 +49,43 @@ namespace Aibest.Application.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [Route("/resumes/addlanguage/{resumeId}")]
-        [ValidateAntiForgeryToken]
+        [HttpPost("/resumes/create-resume")]
+        public IActionResult CreateResume(ResumeModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                int result = _resumeService.CreateResume(model);
+
+                if (result != -1)
+                {
+                    return RedirectToAction("Edit", new { id = model.Id });
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Failed to add the language to the resume.");
+                }
+            }
+
+            return View("Edit", new { id = model.Id });
+        }
+
+        [HttpPost("/resumes/{resumeId:int}/delete-resume")]
+        public IActionResult DeleteResume([FromRoute] int resumeId)
+        {
+
+            bool isSuccess = _resumeService.DeleteResume(resumeId);
+
+            if (isSuccess)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("Delete", resumeId);
+            }
+        }
+
+        [HttpPost("/resumes/{resumeId:int}/add-language")]
         public IActionResult AddLanguage([FromRoute] int resumeId, LanguageModel model)
         {
             if (ModelState.IsValid)
@@ -73,9 +105,7 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        [HttpPost]
-        [Route("/resumes/addskill/{resumeId}")]
-        [ValidateAntiForgeryToken]
+        [HttpPost("/resumes/{resumeId:int}/add-skill")]
         public IActionResult AddSkill([FromRoute] int resumeId, SkillModel model)
         {
             if (ModelState.IsValid)
@@ -95,9 +125,7 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        [HttpPost]
-        [Route("/resumes/addcertificate/{resumeId}")]
-        [ValidateAntiForgeryToken]
+        [HttpPost("/resumes/{resumeId:int}/add-certificate")]
         public IActionResult AddCertificate([FromRoute] int resumeId, CertificateModel model)
         {
             if (ModelState.IsValid)
@@ -117,9 +145,7 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        [HttpPost]
-        [Route("/resumes/addeducation/{resumeId}")]
-        [ValidateAntiForgeryToken]
+        [HttpPost("/resumes/{resumeId:int}/add-education")]
         public IActionResult AddEducation([FromRoute] int resumeId, EducationModel model)
         {
             if (ModelState.IsValid)
@@ -139,9 +165,7 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        [HttpPost]
-        [Route("/resumes/addjob/{resumeId}")]
-        [ValidateAntiForgeryToken]
+        [HttpPost("/resumes/{resumeId:int}/add-job")]
         public IActionResult AddJob([FromRoute] int resumeId, JobModel model)
         {
             if (ModelState.IsValid)
@@ -161,9 +185,7 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        [HttpPost]
-        [Route("/resumes/deletecertificate/{resumeId}/{certificateId}")]
-        [ValidateAntiForgeryToken]
+        [HttpPost("/resumes/{resumeId:int}/delete-certificate/{certificateId}")]
         public IActionResult DeleteCertificate([FromRoute] int resumeId, [FromRoute] int certificateId)
         {
             bool result = _resumeService.RemoveResumeRelatedEntity<Certificate>(certificateId);
@@ -180,9 +202,7 @@ namespace Aibest.Application.Controllers
             return RedirectToAction("Edit", new { id = resumeId });
         }
 
-        [HttpPost]
-        [Route("/resumes/deleteeducation/{resumeId}/{educationId}")]
-        [ValidateAntiForgeryToken]
+        [HttpPost("/resumes/{resumeId:int}/delete-education/{educationId}")]
         public IActionResult DeleteEducation([FromRoute] int resumeId, [FromRoute] int educationId)
         {
             bool result = _resumeService.RemoveResumeRelatedEntity<Education>(educationId);
@@ -199,9 +219,7 @@ namespace Aibest.Application.Controllers
             return RedirectToAction("Edit", new { id = resumeId });
         }
 
-        [HttpPost]
-        [Route("/resumes/deletejob/{resumeId}/{jobId}")]
-        [ValidateAntiForgeryToken]
+        [HttpPost("/resumes/{resumeId:int}/delete-job/{jobId}")]
         public IActionResult DeleteJob([FromRoute] int resumeId, [FromRoute] int jobId)
         {
             bool result = _resumeService.RemoveResumeRelatedEntity<Job>(jobId);
@@ -219,8 +237,7 @@ namespace Aibest.Application.Controllers
         }
 
         [HttpPost]
-        [Route("/resumes/deletelanguage/{resumeId}/{languageId}")]
-        [ValidateAntiForgeryToken]
+        [Route("/resumes/{resumeId:int}/delete-language/{languageId}")]
         public IActionResult DeleteLanguage([FromRoute] int resumeId, [FromRoute] int languageId)
         {
             bool result = _resumeService.RemoveResumeRelatedEntity<Language>(languageId);
@@ -238,8 +255,7 @@ namespace Aibest.Application.Controllers
         }
 
         [HttpPost]
-        [Route("/resumes/deleteskill/{resumeId}/{skillId}")]
-        [ValidateAntiForgeryToken]
+        [Route("/resumes/{resumeId:int}/delete-skill/{skillId}")]
         public IActionResult DeleteSkill([FromRoute] int resumeId, [FromRoute] int skillId)
         {
             bool result = _resumeService.RemoveResumeRelatedEntity<Skill>(skillId);
