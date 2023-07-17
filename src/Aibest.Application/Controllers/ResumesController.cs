@@ -30,7 +30,7 @@ namespace Aibest.Application.Controllers
         }
 
         [HttpPost("/resumes/{resumeId:int}/edit-personal-information")]
-        public IActionResult EditPersonalInformation([FromRoute] int id, ResumeModel model)
+        public IActionResult EditPersonalInformation([FromRoute] int resumeId, ResumeModel model)
         {
             if (ModelState.IsValid)
             {
@@ -46,7 +46,7 @@ namespace Aibest.Application.Controllers
                 }
             }
 
-            return View(model);
+            return View("Edit", new { id = resumeId });
         }
 
         [HttpPost("/resumes/create-resume")]
