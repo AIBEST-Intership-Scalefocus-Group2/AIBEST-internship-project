@@ -10,21 +10,21 @@ namespace Aibest.Business.Services
 
         ResumeModel GetResume(int resumeId);
 
-        int CreateResume(ResumeModel resume);
+        bool CreateResume(ResumeModel resume);
 
-        int UpdateResume(ResumeModel resume);
+        bool UpdateResume(ResumeModel resume);
 
         bool DeleteResume(int resumeId);
 
-        int AddSkillToResume(int resumeId, SkillModel skill);
+        bool AddSkillToResume(int resumeId, SkillModel skill);
 
-        int AddJobToResume(int resumeId, JobModel job);
+        bool AddJobToResume(int resumeId, JobModel job);
 
-        int AddEducationToResume(int resumeId, EducationModel education);
+        bool AddEducationToResume(int resumeId, EducationModel education);
 
-        int AddLanguageToResume(int resumeId, LanguageModel language);
+        bool AddLanguageToResume(int resumeId, LanguageModel language);
 
-        int AddCertificateToResume(int resumeId, CertificateModel certificate);
+        bool AddCertificateToResume(int resumeId, CertificateModel certificate);
 
         bool RemoveResumeRelatedEntity<T>(int id)
             where T : ResumeRelatedEntity;

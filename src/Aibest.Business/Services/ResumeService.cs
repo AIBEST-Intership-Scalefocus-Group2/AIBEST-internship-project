@@ -20,11 +20,11 @@ namespace Aibest.Business.Services
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public int AddCertificateToResume(int resumeId, CertificateModel certificate)
+        public bool AddCertificateToResume(int resumeId, CertificateModel certificate)
         {
             if (!ValidateResume(resumeId))
             {
-                return -1;
+                return false;
             }
 
             try
@@ -38,19 +38,19 @@ namespace Aibest.Business.Services
                 };
                 context.Certificates.Add(certificateNew);
                 context.SaveChanges();
-                return resumeId;
+                return true;
             }
             catch (Exception)
             {
-                return -1;
+                return false;
             }
         }
 
-        public int AddEducationToResume(int resumeId, EducationModel education)
+        public bool AddEducationToResume(int resumeId, EducationModel education)
         {
             if (!ValidateResume(resumeId))
             {
-                return -1;
+                return false;
             }
 
             try
@@ -67,19 +67,19 @@ namespace Aibest.Business.Services
 
                 context.Educations.Add(educationNew);
                 context.SaveChanges();
-                return resumeId;
+                return true;
             }
             catch (Exception)
             {
-                return -1;
+                return false;
             }
         }
 
-        public int AddJobToResume(int resumeId, JobModel job)
+        public bool AddJobToResume(int resumeId, JobModel job)
         {
             if (!ResumeExists(resumeId) && IsUserOwnsThatResume(resumeId))
             {
-                return -1;
+                return false;
             }
             try
             {
@@ -96,19 +96,19 @@ namespace Aibest.Business.Services
 
                 context.Jobs.Add(jobNew);
                 context.SaveChanges();
-                return jobNew.Id;
+                return true;
             }
             catch (Exception)
             {
-                return -1;
+                return false;
             }
         }
 
-        public int AddLanguageToResume(int resumeId, LanguageModel language)
+        public bool AddLanguageToResume(int resumeId, LanguageModel language)
         {
             if (!ValidateResume(resumeId))
             {
-                return -1;
+                return false;
             }
 
             try
@@ -116,7 +116,7 @@ namespace Aibest.Business.Services
                 bool levelExists = Enum.TryParse(language.Level, true, out Levels result);
                 if (!levelExists)
                 {
-                    return -1;
+                    return false;
                 }
                 var languageNew = new Language()
                 {
@@ -127,19 +127,19 @@ namespace Aibest.Business.Services
 
                 context.Languages.Add(languageNew);
                 context.SaveChanges();
-                return resumeId;
+                return true;
             }
             catch (Exception)
             {
-                return -1;
+                return false;
             }
         }
 
-        public int AddSkillToResume(int resumeId, SkillModel skill)
+        public bool AddSkillToResume(int resumeId, SkillModel skill)
         {
             if (!ValidateResume(resumeId))
             {
-                return -1;
+                return false;
             }
 
             try
@@ -151,15 +151,15 @@ namespace Aibest.Business.Services
                 };
                 context.Skills.Add(skillNew);
                 context.SaveChanges();
-                return resumeId;
+                return true;
             }
             catch (Exception)
             {
-                return -1;
+                return false;
             }
         }
 
-        public int CreateResume(ResumeModel resume)
+        public bool CreateResume(ResumeModel resume)
         {
             try
             {
@@ -172,11 +172,11 @@ namespace Aibest.Business.Services
                 };
                 context.Resumes.Add(resumeNew);
                 context.SaveChanges();
-                return resumeNew.Id;
+                return true;
             }
             catch (Exception)
             {
-                return -1;
+                return false;
             }
         }
 
@@ -309,14 +309,14 @@ namespace Aibest.Business.Services
             return resumesModel;
         }
 
-        public int UpdateResume(ResumeModel resumeModel)
+        public bool UpdateResume(ResumeModel resumeModel)
         {
             try
             {
                 var resume = context.Resumes.FirstOrDefault(r => r.Id == resumeModel.Id);
                 if (resume == null && !IsUserOwnsThatResume(resumeModel.Id))
                 {
-                    return -1;
+                    return false;
                 }
                 resume.FirstName = resumeModel.FirstName;
                 resume.MiddleName = resumeModel.MiddleName;
@@ -325,11 +325,11 @@ namespace Aibest.Business.Services
                 resume.PhoneNumber = resumeModel.PhoneNumber;
                 resume.Address = resumeModel.Address;
                 context.SaveChanges();
-                return resumeModel.Id;
+                return true;
             }
             catch (Exception)
             {
-                return -1;
+                return false;
             }
         }
 
