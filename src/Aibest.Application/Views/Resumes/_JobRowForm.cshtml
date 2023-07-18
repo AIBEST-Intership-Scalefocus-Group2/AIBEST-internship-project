@@ -5,33 +5,38 @@
 
     <td>
         <div>
-            <input type="date" class="form-control" asp-for="Name" id="" />
+            <input type="date" class="form-control" asp-for="BeginYear" id="" />
         </div>
     </td>
 
     <td>
         <div>
-            <input type="date" class="form-control" asp-for="Name" id="" />
+            <input type="date" class="form-control" asp-for="EndYear" id="" />
         </div>
     </td>
 
     <td>
         <div>
-            <input type="text" class="form-control" asp-for="Name" id="" />
+            <input type="text" class="form-control" asp-for="Name" id="" required />
         </div>
     </td>
     <td>
         <div>
-            <input type="text" class="form-control" asp-for="Name" id="" />
+            <input type="text" class="form-control" asp-for="CompanyName" id="" required />
         </div>
     </td>
     <td>
         <div>
-            <input type="text" class="form-control" asp-for="Name" id="" />
+            <input type="text" class="form-control" asp-for="Position" id="" required />
         </div>
     </td>
     <td>
-        <button class="btn btn-primary">
+        <div>
+            <input type="text" class="form-control" asp-for="Description" id="" />
+        </div>
+    </td>
+    <td>
+        <button class="btn btn-primary" type="submit">
             Add
         </button>
     </td>

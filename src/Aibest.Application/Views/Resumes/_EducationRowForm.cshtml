@@ -17,7 +17,8 @@
 
     <td>
         <div>
-            <input type="text" class="form-control" asp-for="Major" id="major" />
+            <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
+            <input type="text" class="form-control" asp-for="Major" id="major" required/>
         </div>
     </td>
     <td>
@@ -27,7 +28,8 @@
     </td>
     <td>
         <div>
-            <input type="text" class="form-control" asp-for="Name" id="name" />
+            <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
+            <input type="text" class="form-control" asp-for="Name" id="name" required/>
         </div>
     </td>
     <td>

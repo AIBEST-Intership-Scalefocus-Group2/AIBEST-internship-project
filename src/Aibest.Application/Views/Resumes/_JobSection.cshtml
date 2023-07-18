@@ -11,9 +11,10 @@
                 <tr>
                     <th scope="col">Start</th>
                     <th scope="col">End</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Work place</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Compnay name</th>
                     <th scope="col">Position</th>
+                    <th scope="col">Description</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -24,8 +25,8 @@
                     <tr>
                         <th>@job.Name</th>
                         <td>
-                            <form method="post" asp-action="DeleteSkill">
-                                <input type="hidden" name="SkillId" value="@job.Id" />
+                            <form method="post" asp-action="DeleteJob">
+                                <input type="hidden" name="JobId" value="@job.Id" />
                                 <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
                                 <button type="submit" class="btn btn-danger">
                                     Delete
