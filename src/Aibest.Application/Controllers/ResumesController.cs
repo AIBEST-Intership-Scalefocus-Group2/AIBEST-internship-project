@@ -45,7 +45,7 @@ namespace Aibest.Application.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Failed to edit the personal information the resume.");
+                    ModelState.AddModelError(string.Empty, "Failed to edit the personal information in the resume.");
                 }
             }
 
