@@ -5,9 +5,9 @@ VisualStudioVersion = 17.7.33711.374
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aibest.Application", "src\Aibest.Application\Aibest.Application.csproj", "{D0DEE2DB-5CA4-48D3-8724-69B384DCC699}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aibest.Business", "src\Aibest.Business\Aibest.Business.csproj", "{7409A7A9-F21A-45C4-9AC1-99543B4CA859}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aibest.Business", "src\Aibest.Business\Aibest.Business.csproj", "{7409A7A9-F21A-45C4-9AC1-99543B4CA859}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aibest.Data", "src\Aibest.Data\Aibest.Data.csproj", "{546EC816-1F12-455A-B468-96F0347C97F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aibest.Data", "src\Aibest.Data\Aibest.Data.csproj", "{546EC816-1F12-455A-B468-96F0347C97F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

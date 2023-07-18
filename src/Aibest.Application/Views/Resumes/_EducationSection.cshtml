@@ -1,0 +1,42 @@
+﻿@model ResumeModel
+
+<div>
+    <h3 class="display-4">Education</h3>
+</div>
+<div class="row">
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Start</th>
+                    <th scope="col">End</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Major</th>
+                    <th scope="col">Institution</th>
+                    <th scope="col">Place</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                <partial name="_EducationRowForm" model="@(new EducationModel())" view-data="@ViewData" />
+                @foreach (var education in Model.Educations)
+                {
+                    <tr>
+                        <th>@education.Name</th>
+                        <td>
+                            <form method="post" asp-action="DeleteSkill">
+                                <input type="hidden" name="SkillId" value="@education.Id" />
+                                <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
+                                <button type="submit" class="btn btn-danger">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

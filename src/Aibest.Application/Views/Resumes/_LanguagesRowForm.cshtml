@@ -1,0 +1,23 @@
+﻿@model LanguageModel
+
+<tr>
+    <form>
+    <td>
+
+        <div>
+            <input type="text" class="form-control" asp-for="Name" id="name" />
+        </div>
+    </td>
+    <td>
+        <div>
+            <input type="text" class="form-control" asp-for="Level" id="level" />
+            <span class="text-danger" asp-validation-for="Level"></span>
+        </div>
+    </td>
+    <td>
+        <button class="btn btn-primary">
+            Add
+        </button>
+    </td>
+    </form>
+</tr>
