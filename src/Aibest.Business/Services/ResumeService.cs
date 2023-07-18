@@ -2,6 +2,7 @@
 using Aibest.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,13 @@ namespace Aibest.Business.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ILogger<ResumeService> _logger;
 
-        public ResumeService(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor = null)
+        public ResumeService(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor = null,ILogger<ResumeService> logger = null)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
+            this._logger = logger;
         }
 
         public bool AddCertificateToResume(int resumeId, CertificateModel certificate)
@@ -42,6 +45,7 @@ namespace Aibest.Business.Services
             }
             catch (Exception)
             {
+                _logger.LogError("Incorrect data");
                 return false;
             }
         }
@@ -71,6 +75,7 @@ namespace Aibest.Business.Services
             }
             catch (Exception)
             {
+                _logger.LogError("");
                 return false;
             }
         }
@@ -113,7 +118,7 @@ namespace Aibest.Business.Services
 
             try
             {
-                bool levelExists = Enum.TryParse(language.Level, true, out Levels result);
+                bool levelExists = Enum.TryParse<Levels>(language.Name, out var level);
                 if (!levelExists)
                 {
                     return false;
@@ -226,6 +231,7 @@ namespace Aibest.Business.Services
                 EmailAddress = resume.EmailAddress,
                 PhoneNumber = resume.PhoneNumber,
                 Address = resume.Address,
+                Description = resume.Description
             };
 
             foreach (var skill in resume.Skills)
@@ -324,6 +330,7 @@ namespace Aibest.Business.Services
                 resume.EmailAddress = resumeModel.EmailAddress;
                 resume.PhoneNumber = resumeModel.PhoneNumber;
                 resume.Address = resumeModel.Address;
+                resume.Description = resumeModel.Description;
                 context.SaveChanges();
                 return true;
             }

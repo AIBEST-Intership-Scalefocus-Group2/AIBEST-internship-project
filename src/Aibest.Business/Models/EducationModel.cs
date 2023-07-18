@@ -10,7 +10,6 @@ namespace Aibest.Business.Models
 
         public string Country { get; set; }
 
-        //public string Type { get; set; }
         [Required]
         public string Major { get; set; }
 

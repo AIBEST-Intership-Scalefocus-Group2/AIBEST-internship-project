@@ -9,6 +9,6 @@ namespace Aibest.Data
         public string Name { get; set; }
         
         [Required]
-        public string Level { get; set; }
+        public Levels Level { get; set; }
     }
 }
