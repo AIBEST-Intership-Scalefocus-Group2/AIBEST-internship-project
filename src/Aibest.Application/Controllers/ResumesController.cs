@@ -2,16 +2,19 @@
 using Aibest.Business.Models;
 using Aibest.Business.Services;
 using Aibest.Data;
+using Microsoft.Extensions.Logging;
 
 namespace Aibest.Application.Controllers
 {
     public class ResumesController : Controller
     {
         private readonly IResumeService _resumeService;
+        private readonly ILogger<ResumesController> _logger;
 
-        public ResumesController(IResumeService resumeService)
+        public ResumesController(IResumeService resumeService, ILogger<ResumesController> logger)
         {
             _resumeService = resumeService;
+            _logger = logger;
         }
 
         [HttpGet("/resumes/{resumeId:int}/edit")]
