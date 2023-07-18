@@ -38,6 +38,8 @@ namespace Aibest.Data
         [Required]
         public string LastName { get; set; }
 
+        public DateTime Birthday { get; set; }
+
         [EmailAddress]
         public string EmailAddress { get; set; }
 

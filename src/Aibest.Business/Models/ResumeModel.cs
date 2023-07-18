@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Aibest.Business.Models
@@ -24,6 +25,8 @@ namespace Aibest.Business.Models
 
         [Required]
         public string LastName { get; set; }
+
+        public DateTime Birthday { get; set; }
 
         [EmailAddress]
         public string EmailAddress { get; set; }

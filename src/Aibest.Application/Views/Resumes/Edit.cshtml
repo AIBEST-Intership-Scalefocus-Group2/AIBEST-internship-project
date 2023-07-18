@@ -13,7 +13,8 @@
         <div class="mb-3">
             <h3 class="display-4">Personal information</h3>
 
-            <form asp-action="EditPersonalInformation" method="post">
+            <form asp-action="EditPersonalInformation" method="post" asp-controller="Resumes">
+                <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
                 <div>
                     <div>
                         <label for="firstName" class="col-sm-2 col-form-label">Name</label>
@@ -39,6 +40,11 @@
                     </div>
 
                     <div>
+                        <label for="birthday" class="form-label">Birthday</label>
+                        <input type="date" class="form-control" asp-for="Birthday" id="birthday">
+                    </div>
+
+                    <div>
                         <label for="email" class="form-label">Email Address</label>
                         <input type="email" class="form-control" asp-for="EmailAddress" id="email" required>
                         <span class="text-danger" asp-validation-for="EmailAddress"></span>
@@ -61,15 +67,14 @@
 
                 </div>
 
-
-
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-
-            <partial name="_SkillsSection" model="@Model" view-data="@ViewData" />
         </div>
 
+        <partial name="_SkillsSection" model="@Model" view-data="@ViewData" />
         <partial name="_LanguageSection" model="@Model" view-data="@ViewData" />
-         <partial name="_EducationSection" model="@Model" view-data="@ViewData" />
+        <partial name="_EducationSection" model="@Model" view-data="@ViewData" />
         <partial name="_JobSection" model="@Model" view-data="@ViewData" />
+        <partial name="_CertificateSection" model="@Model" view-data="@ViewData" />
+    </main>
 </div>

@@ -3,6 +3,7 @@ using Aibest.Business.Models;
 using Aibest.Business.Services;
 using Aibest.Data;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace Aibest.Application.Controllers
 {
@@ -62,10 +63,11 @@ namespace Aibest.Application.Controllers
         }
 
         [HttpPost("edit-personal-information")]
-        public IActionResult EditPersonalInformation([FromForm(Name = "ResumeId")] int resumeId, ResumeModel model)
+        public IActionResult EditPersonalInformation([FromForm(Name = "ResumeId")] int resumeId,[FromForm] ResumeModel model)
         {
             if (ModelState.IsValid)
             {
+                model.Id = resumeId;
                 bool isSuccess = _resumeService.UpdateResume(model);
 
                 if (isSuccess)
@@ -90,6 +92,7 @@ namespace Aibest.Application.Controllers
 
                 if (isSuccess)
                 {
+                    model.Id = _resumeService.GetResumes().LastOrDefault().Id;
                     return RedirectToEdit(model.Id);
                 }
                 else
@@ -119,11 +122,11 @@ namespace Aibest.Application.Controllers
         }
 
         [HttpPost("add-language")]
-        public IActionResult AddLanguage([FromForm(Name = "ResumeId")] int resumeId, [FromForm] LanguageModel model)
+        public IActionResult AddLanguage([FromForm(Name = "ResumeId")] int resumeId, [FromForm] LanguageModel model, [FromForm(Name = "level")] string level)
         {
             if (ModelState.IsValid)
             {
-                bool isSuccess = _resumeService.AddLanguageToResume(resumeId, model);
+                bool isSuccess = _resumeService.AddLanguageToResume(resumeId, model,level);
 
                 if (isSuccess)
                 {
@@ -158,7 +161,7 @@ namespace Aibest.Application.Controllers
             return RedirectToEdit(resumeId);
         }
 
-        [HttpPost("{resumeId:int}/add-certificate")]
+        [HttpPost("add-certificate")]
         public IActionResult AddCertificate([FromForm(Name = "ResumeId")] int resumeId, [FromForm] CertificateModel model)
         {
             if (ModelState.IsValid)
@@ -178,7 +181,7 @@ namespace Aibest.Application.Controllers
             return RedirectToEdit(resumeId);
         }
 
-        [HttpPost("{resumeId:int}/add-education")]
+        [HttpPost("add-education")]
         public IActionResult AddEducation([FromForm(Name = "ResumeId")] int resumeId, [FromForm]EducationModel model)
         {
             if (ModelState.IsValid)
@@ -198,7 +201,7 @@ namespace Aibest.Application.Controllers
             return RedirectToEdit(resumeId);
         }
 
-        [HttpPost("{resumeId:int}/add-job")]
+        [HttpPost("add-job")]
         public IActionResult AddJob([FromForm(Name = "ResumeId")] int resumeId, [FromForm] JobModel model)
         {
             if (ModelState.IsValid)
@@ -218,7 +221,7 @@ namespace Aibest.Application.Controllers
             return RedirectToEdit(resumeId);
         }
 
-        [HttpPost("{resumeId:int}/delete-certificate/{certificateId}")]
+        [HttpPost("delete-certificate")]
         public IActionResult DeleteCertificate([FromForm(Name = "ResumeId")] int resumeId, [FromForm(Name = "CertificateId")] int certificateId)
         {
             bool isSuccess = _resumeService.RemoveResumeRelatedEntity<Certificate>(certificateId);
@@ -235,7 +238,7 @@ namespace Aibest.Application.Controllers
             return RedirectToEdit(resumeId);
         }
 
-        [HttpPost("{resumeId:int}/delete-education/{educationId}")]
+        [HttpPost("delete-education")]
         public IActionResult DeleteEducation([FromForm(Name = "ResumeId")] int resumeId, [FromForm(Name = "EducationId")] int educationId)
         {
             bool isSuccess = _resumeService.RemoveResumeRelatedEntity<Education>(educationId);
@@ -252,7 +255,7 @@ namespace Aibest.Application.Controllers
             return RedirectToEdit(resumeId);
         }
 
-        [HttpPost("{resumeId:int}/delete-job/{jobId}")]
+        [HttpPost("delete-job")]
         public IActionResult DeleteJob([FromForm(Name = "ResumeId")] int resumeId, [FromForm(Name = "JobId")] int jobId)
         {
             bool isSuccess = _resumeService.RemoveResumeRelatedEntity<Job>(jobId);
@@ -270,7 +273,7 @@ namespace Aibest.Application.Controllers
         }
 
         [HttpPost]
-        [Route("{resumeId:int}/delete-language/{languageId}")]
+        [Route("delete-language")]
         public IActionResult DeleteLanguage([FromForm(Name = "ResumeId")] int resumeId, [FromForm(Name = "LanguageId")] int languageId)
         {
             bool isSuccess = _resumeService.RemoveResumeRelatedEntity<Language>(languageId);

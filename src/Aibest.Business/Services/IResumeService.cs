@@ -22,7 +22,7 @@ namespace Aibest.Business.Services
 
         bool AddEducationToResume(int resumeId, EducationModel education);
 
-        bool AddLanguageToResume(int resumeId, LanguageModel language);
+        bool AddLanguageToResume(int resumeId, LanguageModel language,string level);
 
         bool AddCertificateToResume(int resumeId, CertificateModel certificate);
 

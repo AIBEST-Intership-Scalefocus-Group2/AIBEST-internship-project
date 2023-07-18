@@ -1,17 +1,16 @@
 ﻿@model LanguageModel
 
 <tr>
-    <form>
+    <form method="post" asp-action="AddLanguage" asp-controller="Resumes">
+        <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
     <td>
-
         <div>
             <input type="text" class="form-control" asp-for="Name" id="name" />
         </div>
     </td>
     <td>
         <div>
-            <input type="text" class="form-control" asp-for="Level" id="level" />
-            <span class="text-danger" asp-validation-for="Level"></span>
+            <input type="text" class="form-control" name="level" id="level" />
         </div>
     </td>
     <td>

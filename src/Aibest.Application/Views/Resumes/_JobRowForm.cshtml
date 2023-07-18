@@ -1,38 +1,42 @@
 ﻿@model JobModel
 
 <tr>
-    <form>
-
+    <form method="post" asp-action="AddJob" asp-controller="Resumes">
+        <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
+    
     <td>
         <div>
-            <input type="date" class="form-control" asp-for="BeginYear" id="" />
+            <input type="text" class="form-control" asp-for="Name" id="name" required />
         </div>
     </td>
 
     <td>
         <div>
-            <input type="date" class="form-control" asp-for="EndYear" id="" />
+            <input type="text" class="form-control" asp-for="CompanyName" id="companyName" required />
         </div>
     </td>
 
     <td>
         <div>
-            <input type="text" class="form-control" asp-for="Name" id="" required />
+            <input type="text" class="form-control" asp-for="Position" id="position" required />
         </div>
     </td>
+
     <td>
         <div>
-            <input type="text" class="form-control" asp-for="CompanyName" id="" required />
+            <input type="text" class="form-control" asp-for="Description" id="description" />
         </div>
     </td>
+
     <td>
         <div>
-            <input type="text" class="form-control" asp-for="Position" id="" required />
+            <input type="date" class="form-control" asp-for="BeginYear" id="beginYear" />
         </div>
     </td>
+
     <td>
         <div>
-            <input type="text" class="form-control" asp-for="Description" id="" />
+            <input type="date" class="form-control" asp-for="EndYear" id="endYear" />
         </div>
     </td>
     <td>

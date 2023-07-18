@@ -1,32 +1,29 @@
 ﻿@model ResumeModel
 
 <div>
-    <h3 class="display-4">Education</h3>
+    <h3 class="display-4">Certificates</h3>
 </div>
+
 <div class="row">
     <div class="col">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Country</th>
-                    <th scope="col">Major</th>
-                    <th scope="col">Start Year</th>
-                    <th scope="col">End year</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Issued Year</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
-
-
             <tbody>
-                <partial name="_EducationRowForm" model="@(new EducationModel())" view-data="@ViewData" />
-                @foreach (var education in Model.Educations)
+                <partial name="_CertificateRowForm" model="@(new CertificateModel())" view-data="@ViewData" />
+                @foreach (var certificate in Model.Certificates)
                 {
                     <tr>
-                        <th>@education.Name</th>
+                        <th>@certificate.Name</th>
                         <td>
-                            <form method="post" asp-action="DeleteEducation" onsubmit="return confirm('Do you really want to delete `@education.Name` education from your CV?');">
-                                <input type="hidden" name="EducationId" value="@education.Id" />
+                            <form method="post" asp-action="DeleteCertificate" onsubmit="return confirm('Do you really want to delete `@certificate.Name` certificate from your CV?');">
+                                <input type="hidden" name="CertificateId" value="@certificate.Id" />
                                 <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
                                 <button type="submit" class="btn btn-danger">
                                     Delete

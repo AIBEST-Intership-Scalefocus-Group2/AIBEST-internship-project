@@ -1,4 +1,4 @@
-@model ResumeModel
+    @model ResumeModel
 
 <div>
     <h3 class="display-4">Skills</h3>
@@ -20,7 +20,7 @@
                     <tr>
                         <th>@skill.Name</th>
                         <td>
-                            <form method="post" asp-action="DeleteSkill">
+                            <form method="post" asp-action="DeleteSkill" onsubmit="return confirm('Do you really want to delete `@skill.Name` skill from your CV?');">
                                 <input type="hidden" name="SkillId" value="@skill.Id" />
                                 <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
                                 <button type="submit" class="btn btn-danger">

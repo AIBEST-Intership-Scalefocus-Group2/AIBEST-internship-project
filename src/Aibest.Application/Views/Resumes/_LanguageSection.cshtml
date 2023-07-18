@@ -20,8 +20,8 @@
                     <tr>
                         <th>@language.Name</th>
                         <td>
-                            <form method="post" asp-action="DeleteSkill">
-                                <input type="hidden" name="SkillId" value="@language.Id" />
+                            <form method="post" asp-action="DeleteLanguage">
+                                <input type="hidden" name="LanguageId" value="@language.Id" onsubmit="return confirm('Do you really want to delete `@language.Name?` language from your CV?');" />
                                 <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
                                 <button type="submit" class="btn btn-danger">
                                     Delete
