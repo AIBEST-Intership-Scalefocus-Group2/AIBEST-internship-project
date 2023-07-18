@@ -28,7 +28,6 @@ namespace Aibest.Business.Models
         [EmailAddress]
         public string EmailAddress { get; set; }
 
-        [Phone]
         public string PhoneNumber { get; set; }
 
         public string Address { get; set; }

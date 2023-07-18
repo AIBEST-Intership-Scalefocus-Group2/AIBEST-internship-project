@@ -7,9 +7,13 @@ namespace Aibest.Application.Controllers
 {
     public class HomeController : Controller
     {
-
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Resumes");
+            }
+
             return View();
         }
 
