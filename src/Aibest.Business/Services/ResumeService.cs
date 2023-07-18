@@ -196,7 +196,7 @@ namespace Aibest.Business.Services
                 }
                 context.Resumes.Remove(resume);
                 context.SaveChanges();
-                return false;
+                return true;
             }
             catch (Exception)
             {

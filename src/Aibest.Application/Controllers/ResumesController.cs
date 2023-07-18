@@ -34,6 +34,7 @@ namespace Aibest.Application.Controllers
 
                 ModelState.AddModelError(string.Empty, errorMessage);
             }
+
             return View(resumes);
         }
 
@@ -80,8 +81,8 @@ namespace Aibest.Application.Controllers
             return View("Edit", new { id = resumeId });
         }
 
-        [HttpPost("create-resume")]
-        public IActionResult CreateResume(ResumeModel model)
+        [HttpPost("add")]
+        public IActionResult AddResume(ResumeModel model)
         {
             if (ModelState.IsValid)
             {
@@ -97,11 +98,11 @@ namespace Aibest.Application.Controllers
                 }
             }
 
-            return View("Edit", new { id = model.Id });
+            return View();
         }
 
-        [HttpPost("{resumeId:int}/delete-resume")]
-        public IActionResult DeleteResume([FromRoute] int resumeId)
+        [HttpPost]
+        public IActionResult DeleteResume([FromForm(Name = "ResumeId")]int resumeId)
         {
 
             bool isSuccess = _resumeService.DeleteResume(resumeId);
