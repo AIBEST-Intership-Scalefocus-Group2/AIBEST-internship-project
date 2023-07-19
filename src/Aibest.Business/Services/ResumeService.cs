@@ -121,7 +121,7 @@ namespace Aibest.Business.Services
 
             try
             {
-                bool levelExists = Enum.TryParse<Levels>(stringLevel, out var level);
+                bool levelExists = Enum.TryParse<Levels>(stringLevel.ToUpper(), out var level);
                 if (!levelExists)
                 {
                     return false;
