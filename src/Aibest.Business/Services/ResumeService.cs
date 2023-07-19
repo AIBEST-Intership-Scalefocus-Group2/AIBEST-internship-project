@@ -17,7 +17,7 @@ namespace Aibest.Business.Services
         private readonly ILogger<ResumeService> logger;
 
         public ResumeService(ILogger<ResumeService> logger,
-                             ApplicationDbContext context, 
+                             ApplicationDbContext context,
                              IHttpContextAccessor httpContextAccessor = null)
         {
             this.context = context;
@@ -47,7 +47,7 @@ namespace Aibest.Business.Services
             }
             catch (Exception ex)
             {
-                logger.LogError(ex,"An error occured during adding certificate to resume {ResumeId}",resumeId);
+                logger.LogError(ex, "An error occured during adding certificate to resume {ResumeId}", resumeId);
                 return false;
             }
         }
@@ -142,7 +142,7 @@ namespace Aibest.Business.Services
                 logger.LogError(ex, "An error occured during adding language to resume {ResumeId}", resumeId);
                 return false;
             }
-         }
+        }
 
         public bool AddSkillToResume(int resumeId, SkillModel skill)
         {
@@ -243,7 +243,8 @@ namespace Aibest.Business.Services
                 Description = resume.Description
             };
 
-            foreach (var skill in resume.Skills)
+            var orderedSkills = resume.Skills.OrderBy(s => s.Name);
+            foreach (var skill in orderedSkills)
             {
                 resumeModel.Skills.Add(new SkillModel
                 {
@@ -252,7 +253,8 @@ namespace Aibest.Business.Services
                 });
             }
 
-            foreach (var job in resume.Jobs)
+            var orderedJobs = resume.Jobs.OrderByDescending(j => j.BeginYear);
+            foreach (var job in orderedJobs)
             {
                 resumeModel.Jobs.Add(new JobModel
                 {
@@ -266,7 +268,8 @@ namespace Aibest.Business.Services
                 });
             }
 
-            foreach (var education in resume.Educations)
+            var orderedEducations = resume.Educations.OrderByDescending(c => c.BeginYear);
+            foreach (var education in orderedEducations)
             {
                 resumeModel.Educations.Add(new EducationModel
                 {
@@ -279,7 +282,8 @@ namespace Aibest.Business.Services
                 });
             }
 
-            foreach (var language in resume.Languages)
+            var orderedLanguages = resume.Languages.OrderBy(l => l.Name);
+            foreach (var language in orderedLanguages)
             {
                 resumeModel.Languages.Add(new LanguageModel
                 {
@@ -289,7 +293,8 @@ namespace Aibest.Business.Services
                 });
             }
 
-            foreach (var certificate in resume.Certificates)
+            var orderedCertificates = resume.Certificates.OrderBy(c => c.IssuedYear);
+            foreach (var certificate in orderedCertificates)
             {
                 resumeModel.Certificates.Add(new CertificateModel
                 {
@@ -309,7 +314,7 @@ namespace Aibest.Business.Services
                           .Resumes
                           .Where(r => r.UserId == GetCurrentUserId());
 
-            if(resumes == null)
+            if (resumes == null)
             {
                 return null;
             }
