@@ -4,6 +4,8 @@ using Aibest.Business.Services;
 using Aibest.Data;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Aibest.Application.Controllers
 {
@@ -77,12 +79,30 @@ namespace Aibest.Application.Controllers
             }
         }
 
+        [HttpGet("{id}/picture")]
+        public IActionResult GetResumeImage(int id)
+        {
+            var pictureBytes = this._resumeService.GetResumePicture(id);
+            if (pictureBytes == null)
+            {
+                return NotFound();
+            }
+
+            return File(pictureBytes, "image/jpg");
+        }
+
         [HttpPost("edit-personal-information")]
-        public IActionResult EditPersonalInformation([FromForm(Name = "ResumeId")] int resumeId,[FromForm] ResumeModel model)
+        public IActionResult EditPersonalInformation(
+            [FromForm(Name = "ResumeId")] int resumeId,
+            [FromForm(Name = "Picture")]IFormFile picture,
+            [FromForm] ResumeModel model)
         {
             if (ModelState.IsValid)
             {
                 model.Id = resumeId;
+                var pictureStream = new MemoryStream();
+                picture.CopyTo(pictureStream);
+                model.PictureBytes = pictureStream.ToArray();
                 bool isSuccess = _resumeService.UpdateResume(model);
 
                 if (isSuccess)
