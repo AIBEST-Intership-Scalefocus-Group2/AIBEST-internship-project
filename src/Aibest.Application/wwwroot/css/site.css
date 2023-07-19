@@ -27,3 +27,12 @@ nav {
     background-color: #bfc8d9;
     color: #2F1847;
 }
+
+#Page-Account-Login .col-md-6.col-md-offset-2,
+#Page-Account-Register .col-md-6.col-md-offset-2 {
+    display: none;
+}
+
+#Page-Account-Login #account > div:nth-child(7) {
+    display: none;
+}

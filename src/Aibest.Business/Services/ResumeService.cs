@@ -14,13 +14,15 @@ namespace Aibest.Business.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly ILogger<ResumeService> _logger;
+        private readonly ILogger<ResumeService> logger;
 
-        public ResumeService(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor = null,ILogger<ResumeService> logger = null)
+        public ResumeService(ILogger<ResumeService> logger,
+                             ApplicationDbContext context,
+                             IHttpContextAccessor httpContextAccessor = null)
         {
             this.context = context;
             this.httpContextAccessor = httpContextAccessor;
-            this._logger = logger;
+            this.logger = logger;
         }
 
         public bool AddCertificateToResume(int resumeId, CertificateModel certificate)
@@ -43,9 +45,9 @@ namespace Aibest.Business.Services
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger.LogError("Incorrect data");
+                logger.LogError(ex, "An error occured during adding certificate to resume {ResumeId}", resumeId);
                 return false;
             }
         }
@@ -73,9 +75,9 @@ namespace Aibest.Business.Services
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger.LogError("");
+                logger.LogError(ex, "An error occured during adding education to resume {ResumeId}", resumeId);
                 return false;
             }
         }
@@ -103,13 +105,14 @@ namespace Aibest.Business.Services
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "An error occured during adding job to resume {ResumeId}", resumeId);
                 return false;
             }
         }
 
-        public bool AddLanguageToResume(int resumeId, LanguageModel language)
+        public bool AddLanguageToResume(int resumeId, LanguageModel language, string stringLevel)
         {
             if (!ValidateResume(resumeId))
             {
@@ -118,7 +121,7 @@ namespace Aibest.Business.Services
 
             try
             {
-                bool levelExists = Enum.TryParse<Levels>(language.Name, out var level);
+                bool levelExists = Enum.TryParse<Levels>(stringLevel.ToUpper(), out var level);
                 if (!levelExists)
                 {
                     return false;
@@ -127,15 +130,16 @@ namespace Aibest.Business.Services
                 {
                     ResumeId = resumeId,
                     Name = language.Name,
-                    Level = language.Level,
+                    Level = level,
                 };
 
                 context.Languages.Add(languageNew);
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "An error occured during adding language to resume {ResumeId}", resumeId);
                 return false;
             }
         }
@@ -158,8 +162,9 @@ namespace Aibest.Business.Services
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "An error occured during adding skill to resume {ResumeId}", resumeId);
                 return false;
             }
         }
@@ -173,14 +178,17 @@ namespace Aibest.Business.Services
                     Name = resume.Name,
                     LastName = resume.LastName,
                     FirstName = resume.FirstName,
+                    PhoneNumber = resume.PhoneNumber,
+                    EmailAddress = resume.EmailAddress,
                     UserId = GetCurrentUserId(),
                 };
                 context.Resumes.Add(resumeNew);
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "An error occured during creating new resume");
                 return false;
             }
         }
@@ -198,8 +206,9 @@ namespace Aibest.Business.Services
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "An error occured during deleting resume {ResumeId}", resumeId);
                 return false;
             }
         }
@@ -228,13 +237,16 @@ namespace Aibest.Business.Services
                 FirstName = resume.FirstName,
                 MiddleName = resume.MiddleName,
                 LastName = resume.LastName,
+                Birthday = resume.Birthday,
                 EmailAddress = resume.EmailAddress,
                 PhoneNumber = resume.PhoneNumber,
+                PictureBytes = resume.ImageBytes,
                 Address = resume.Address,
                 Description = resume.Description
             };
 
-            foreach (var skill in resume.Skills)
+            var orderedSkills = resume.Skills.OrderBy(s => s.Name);
+            foreach (var skill in orderedSkills)
             {
                 resumeModel.Skills.Add(new SkillModel
                 {
@@ -243,7 +255,8 @@ namespace Aibest.Business.Services
                 });
             }
 
-            foreach (var job in resume.Jobs)
+            var orderedJobs = resume.Jobs.OrderByDescending(j => j.BeginYear);
+            foreach (var job in orderedJobs)
             {
                 resumeModel.Jobs.Add(new JobModel
                 {
@@ -257,7 +270,8 @@ namespace Aibest.Business.Services
                 });
             }
 
-            foreach (var education in resume.Educations)
+            var orderedEducations = resume.Educations.OrderByDescending(c => c.BeginYear);
+            foreach (var education in orderedEducations)
             {
                 resumeModel.Educations.Add(new EducationModel
                 {
@@ -270,7 +284,8 @@ namespace Aibest.Business.Services
                 });
             }
 
-            foreach (var language in resume.Languages)
+            var orderedLanguages = resume.Languages.OrderBy(l => l.Name);
+            foreach (var language in orderedLanguages)
             {
                 resumeModel.Languages.Add(new LanguageModel
                 {
@@ -280,7 +295,8 @@ namespace Aibest.Business.Services
                 });
             }
 
-            foreach (var certificate in resume.Certificates)
+            var orderedCertificates = resume.Certificates.OrderBy(c => c.IssuedYear);
+            foreach (var certificate in orderedCertificates)
             {
                 resumeModel.Certificates.Add(new CertificateModel
                 {
@@ -300,7 +316,7 @@ namespace Aibest.Business.Services
                           .Resumes
                           .Where(r => r.UserId == GetCurrentUserId());
 
-            if(resumes == null)
+            if (resumes == null)
             {
                 return null;
             }
@@ -327,15 +343,18 @@ namespace Aibest.Business.Services
                 resume.FirstName = resumeModel.FirstName;
                 resume.MiddleName = resumeModel.MiddleName;
                 resume.LastName = resumeModel.LastName;
+                resume.Birthday = resumeModel.Birthday;
                 resume.EmailAddress = resumeModel.EmailAddress;
                 resume.PhoneNumber = resumeModel.PhoneNumber;
                 resume.Address = resumeModel.Address;
                 resume.Description = resumeModel.Description;
+                resume.ImageBytes = resumeModel.PictureBytes;
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "An error occured during updating resume {ResumeId}", resumeModel.Id);
                 return false;
             }
         }
@@ -355,8 +374,9 @@ namespace Aibest.Business.Services
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "An error occured during removing entity from resume");
                 return false;
             }
         }
@@ -381,5 +401,10 @@ namespace Aibest.Business.Services
 
         private bool ResumeExists(int resumeId) =>
            this.context.Resumes.Any(r => r.Id == resumeId);
+
+        public byte[] GetResumePicture(int resumeId)
+        {
+            return this.context.Resumes.Where(r=>r.Id == resumeId).Select(r=>r.ImageBytes).FirstOrDefault();   
+        }
     }
 }

@@ -1,0 +1,22 @@
+﻿@model LanguageModel
+
+<tr>
+    <form method="post" asp-action="AddLanguage" asp-controller="Resumes">
+        <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
+    <td>
+        <div>
+            <input type="text" class="form-control" asp-for="Name" id="name" />
+        </div>
+    </td>
+    <td>
+        <div>
+            <input type="text" class="form-control" name="level" id="level" />
+        </div>
+    </td>
+    <td>
+        <button class="btn btn-primary">
+            Add
+        </button>
+    </td>
+    </form>
+</tr>

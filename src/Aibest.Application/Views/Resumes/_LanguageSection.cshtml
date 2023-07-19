@@ -1,0 +1,47 @@
+﻿@model ResumeModel
+@{
+    ViewData.TryGetValue("EditMode", out var editModeRaw);
+    var editMode = Convert.ToBoolean(editModeRaw);
+}
+
+<div>
+    <h3 class="display-4">Languages</h3>
+</div>
+<div class="row">
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Level</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (editMode)
+                {
+                    <partial name="_LanguagesRowForm" model="@(new LanguageModel())" view-data="@ViewData" />
+                }
+                @foreach (var language in Model.Languages)
+                {
+                    <tr>
+                        <th>@language.Name</th>
+                        <th>@language.Level</th>
+                        @if (editMode)
+                        {
+                            <td>
+                                <form method="post" asp-action="DeleteLanguage">
+                                    <input type="hidden" name="LanguageId" value="@language.Id" onsubmit="return confirm('Do you really want to delete `@language.Name?` language from your CV?');" />
+                                    <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
+                                    <button type="submit" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

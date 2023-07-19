@@ -1,0 +1,18 @@
+@model SkillModel
+
+<tr>
+    <form method="post" asp-action="AddSkill" asp-controller="Resumes">
+        <td>
+
+            <div>
+            <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
+            <input type="text" class="form-control" asp-for="Name" id="name" required />
+            </div>
+        </td>
+        <td>
+            <button class="btn btn-primary" type="submit">
+                Add
+            </button>
+        </td>
+    </form>
+</tr>

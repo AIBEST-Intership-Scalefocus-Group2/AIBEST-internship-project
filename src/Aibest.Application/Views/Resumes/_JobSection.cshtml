@@ -1,0 +1,59 @@
+﻿@model ResumeModel
+@{
+    ViewData.TryGetValue("EditMode", out var editModeRaw);
+    var editMode = Convert.ToBoolean(editModeRaw);
+}
+
+<div>
+    <h3 class="display-4">Work experience</h3>
+</div>
+
+<div class="row">
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">Company name</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Start</th>
+                    <th scope="col">End</th>
+                    @if (editMode)
+                    {
+                        <th scope="col"></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (editMode)
+                {
+                    <partial name="_JobRowForm" model="@(new JobModel())" view-data="@ViewData" />
+                }
+                @foreach (var job in Model.Jobs)
+                {
+                    <tr>
+                        <th>@job.Name</th>
+                        <th>@job.CompanyName</th>
+                        <th>@job.Position</th>
+                        <th>@job.Description</th>
+                        <th>@job.BeginYear.ToShortDateString()</th>
+                        <th>@job.EndYear.ToShortDateString()</th>
+                        @if (editMode)
+                        {
+                            <td>
+                                <form method="post" asp-action="DeleteJob" onsubmit="return confirm('Do you really want to delete `@job.Name` job from your CV?');">
+                                    <input type="hidden" name="JobId" value="@job.Id" />
+                                    <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
+                                    <button type="submit" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

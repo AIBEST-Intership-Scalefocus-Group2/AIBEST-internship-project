@@ -1,0 +1,78 @@
+﻿@model ResumeModel
+@{
+    ViewData.TryGetValue("EditMode", out var editModeRaw);
+    var editMode = Convert.ToBoolean(editModeRaw);
+}
+
+<div class="mb-3">
+    <h3 class="display-4">Personal information</h3>
+
+    <form asp-action="EditPersonalInformation" method="post" asp-controller="Resumes" enctype="multipart/form-data">
+        <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
+        <div>
+
+            @if (Model.PictureBytes != null)
+            {
+                <div>
+                    <img src="@Url.Action("GetResumeImage", new { id = Model.Id })">
+                </div>
+            }
+
+            <div>
+                <label for="firstName" class="col-sm-2 col-form-label">Name</label>
+                <input type="text" class="form-control" asp-for="Name" id="name">
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+
+            <div>
+                <label for="firstName" class="col-sm-2 col-form-label">First name</label>
+                <input type="text" class="form-control" asp-for="FirstName" id="firstName">
+                <span class="text-danger" asp-validation-for="FirstName"></span>
+            </div>
+
+            <div>
+                <label for="lastName" class="form-label">Middle name</label>
+                <input type="text" class="form-control" asp-for="MiddleName" id="middleName">
+            </div>
+
+            <div>
+                <label for="lastName" class="form-label">Last name</label>
+                <input type="text" class="form-control" asp-for="LastName" id="lastName">
+                <span class="text-danger" asp-validation-for="LastName"></span>
+            </div>
+
+            <div>
+                <label for="birthday" class="form-label">Birthday</label>
+                <input type="date" class="form-control" asp-for="Birthday" id="birthday">
+            </div>
+
+            <div>
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" asp-for="EmailAddress" id="email" required>
+                <span class="text-danger" asp-validation-for="EmailAddress"></span>
+            </div>
+
+            <div>
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" class="form-control" asp-for="PhoneNumber" id="phone">
+            </div>
+
+            <div>
+                <label for="homeAddress" class="form-label">Home address</label>
+                <input type="text" class="form-control" asp-for="Address" id="homeAddress">
+            </div>
+
+            <div>
+                <label for="Description" class="form-label">Description</label>
+                <input type="text" class="form-control" asp-for="Description" id="description">
+            </div>
+
+            <div>
+                <label for="formFile" class="form-label">Picture</label>
+                <input class="form-control" type="file" id="formFile" name="Picture">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>

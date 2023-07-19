@@ -1,0 +1,53 @@
+﻿@model ResumeModel
+@{
+    ViewData.TryGetValue("EditMode", out var editModeRaw);
+    var editMode = Convert.ToBoolean(editModeRaw);
+}
+
+<div>
+    <h3 class="display-4">Certificates</h3>
+</div>
+
+<div class="row">
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Issued Year</th>
+                    @if (editMode)
+                    {
+                        <th scope="col"></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (editMode)
+                {
+                    <partial name="_CertificateRowForm" model="@(new CertificateModel())" view-data="@ViewData" />
+                }
+                @foreach (var certificate in Model.Certificates)
+                {
+                    <tr>
+                        <th>@certificate.Name</th>
+                        <th>@certificate.Description</th>
+                        <th>@certificate.IssuedYear.ToShortDateString()</th>
+                        @if (editMode)
+                        {
+                            <td>
+                                <form method="post" asp-action="DeleteCertificate" onsubmit="return confirm('Do you really want to delete `@certificate.Name` certificate from your CV?');">
+                                    <input type="hidden" name="CertificateId" value="@certificate.Id" />
+                                    <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
+                                    <button type="submit" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -6,6 +6,8 @@ namespace Aibest.Business.Services
 {
     public interface IResumeService
     {
+        byte[] GetResumePicture(int resumeId);
+
         IEnumerable<ResumeModel> GetResumes();
 
         ResumeModel GetResume(int resumeId);
@@ -22,7 +24,7 @@ namespace Aibest.Business.Services
 
         bool AddEducationToResume(int resumeId, EducationModel education);
 
-        bool AddLanguageToResume(int resumeId, LanguageModel language);
+        bool AddLanguageToResume(int resumeId, LanguageModel language,string level);
 
         bool AddCertificateToResume(int resumeId, CertificateModel certificate);
 

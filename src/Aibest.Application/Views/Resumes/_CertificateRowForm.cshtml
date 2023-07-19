@@ -1,0 +1,30 @@
+﻿@model CertificateModel
+
+<tr>
+    <form method="post" asp-action="AddCertificate" asp-controller="Resumes">
+        <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
+    <td>
+        <div>
+            <input type="text" class="form-control" asp-for="Name" id="name" required />
+        </div>
+    </td>
+
+    <td>
+        <div>
+            <input type="text" class="form-control" asp-for="Description" id="description" required />
+        </div>
+    </td>
+
+    <td>
+        <div>
+            <input type="date" class="form-control" asp-for="IssuedYear" id="issuedYear" required />
+        </div>
+    </td>
+
+    <td>
+        <button class="btn btn-primary" type="submit">
+            Add
+        </button>
+    </td>
+    </form>
+</tr>

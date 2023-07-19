@@ -1,0 +1,44 @@
+﻿@model EducationModel
+
+<tr>
+    <form method="post" asp-action="AddEducation" asp-controller="Resumes">
+        <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
+
+    <td>
+        <div>
+            <input type="text" class="form-control" asp-for="Name" id="name" required />
+        </div>
+    </td>
+
+    <td>
+        <div>
+            <input type="text" class="form-control" asp-for="Country" id="country" />
+        </div>
+    </td>
+
+    <td>
+        <div>
+
+            <input type="text" class="form-control" asp-for="Major" id="major" required />
+        </div>
+    </td>
+
+    <td>
+        <div>
+            <input type="date" class="form-control" asp-for="BeginYear" id="beginYear" />
+        </div>
+    </td>
+
+    <td>
+        <div>
+            <input type="date" class="form-control" asp-for="EndYear" id="endYear" />
+        </div>
+    </td>
+
+    <td>
+        <button class="btn btn-primary" type="submit">
+            Add
+        </button>
+    </td>
+    </form>
+</tr>

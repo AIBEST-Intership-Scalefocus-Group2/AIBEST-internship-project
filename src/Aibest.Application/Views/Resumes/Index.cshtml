@@ -31,12 +31,12 @@
                     @resume.LastName
                 </td>
                 <td>
-                    <div class="d-flex">
+                    <div class="d-flex justify-content-end">
                         <div class="me-2">
                             <a class="btn btn-light" href="@Url.Action("Preview", new { id = resume.Id })">Preview</a>
                         </div>
                         <div class="me-2">
-                            <a class="btn btn-info" href="@Url.Action("Edit", new { id = resume.Id })">Edit</a>
+                            <a class="btn btn-warning" href="@Url.Action("Edit", new { id = resume.Id })">Edit</a>
                         </div>
                         <div>
                             <form method="post" asp-action="DeleteResume" onsubmit="return confirm('Do you really want to delete CV `@resume.Name?`');">

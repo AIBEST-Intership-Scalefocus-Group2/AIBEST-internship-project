@@ -1,0 +1,58 @@
+﻿@model ResumeModel
+@{
+    ViewData.TryGetValue("EditMode", out var editModeRaw);
+    var editMode = Convert.ToBoolean(editModeRaw);
+}
+
+<div>
+    <h3 class="display-4">Education</h3>
+</div>
+<div class="row">
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Degree</th>
+                    <th scope="col">Country</th>
+                    <th scope="col">Major</th>
+                    <th scope="col">Start Year</th>
+                    <th scope="col">End year</th>
+                    @if (editMode)
+                    {
+                        <th scope="col"></th>
+                    }
+                </tr>
+            </thead>
+
+
+            <tbody>
+                @if (editMode)
+                {
+                    <partial name="_EducationRowForm" model="@(new EducationModel())" view-data="@ViewData" />
+                }
+                @foreach (var education in Model.Educations)
+                {
+                    <tr>
+                        <th>@education.Name</th>
+                        <th>@education.Country</th>
+                        <th>@education.Major</th>
+                        <th>@education.BeginYear.ToShortDateString()</th>
+                        <th>@education.EndYear.ToShortDateString()</th>
+                        @if (editMode)
+                        {
+                            <td>
+                                <form method="post" asp-action="DeleteEducation" onsubmit="return confirm('Do you really want to delete `@education.Name` education from your CV?');">
+                                    <input type="hidden" name="EducationId" value="@education.Id" />
+                                    <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
+                                    <button type="submit" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

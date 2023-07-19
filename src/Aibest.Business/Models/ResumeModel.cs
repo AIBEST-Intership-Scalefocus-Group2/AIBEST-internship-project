@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Aibest.Business.Models
@@ -25,6 +27,8 @@ namespace Aibest.Business.Models
         [Required]
         public string LastName { get; set; }
 
+        public DateTime Birthday { get; set; }
+
         [EmailAddress]
         public string EmailAddress { get; set; }
 
@@ -34,6 +38,8 @@ namespace Aibest.Business.Models
 
         public string Description { get; set; }
 
+        [BindNever]
+        public byte[] PictureBytes { get; set; }
         public IList<SkillModel> Skills { get; }
 
         public IList<JobModel> Jobs { get; }
