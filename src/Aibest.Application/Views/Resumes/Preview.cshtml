@@ -2,6 +2,7 @@
 @{
     ViewData["ResumeId"] = Model.Id;
     ViewData["EditMode"] = false;
+    var imageBase64 = Model.PictureBytes != null ? Convert.ToBase64String(Model.PictureBytes) : string.Empty;
 }
 
 
@@ -15,15 +16,13 @@
             </div>
         }
 
-
-
         <div>
-            <partial name="_PersonalInfoReviewSection" model="@Model" view-data="@ViewData" />
-            <partial name="_SkillsSection" model="@Model" view-data="@ViewData" />
-            <partial name="_LanguageSection" model="@Model" view-data="@ViewData" />
-            <partial name="_EducationSection" model="@Model" view-data="@ViewData" />
-            <partial name="_JobSection" model="@Model" view-data="@ViewData" />
-            <partial name="_CertificateSection" model="@Model" view-data="@ViewData" />
+            <partial name="_PersonalInfoReviewSection" model="@Model" view-data="@ViewData"/>
+            <partial name="_SkillsSection" model="@Model" view-data="@ViewData"/>
+            <partial name="_LanguageSection" model="@Model" view-data="@ViewData"/>
+            <partial name="_EducationSection" model="@Model" view-data="@ViewData"/>
+            <partial name="_JobSection" model="@Model" view-data="@ViewData"/>
+            <partial name="_CertificateSection" model="@Model" view-data="@ViewData"/>
         </div>
 
         <div class="me-2 d-flex">
@@ -33,55 +32,79 @@
     </main>
 </div>
 
+@section Scripts {
+    <script>
+        var resumeImageBase64 = null;
+        if ('@imageBase64' != '') {
+            resumeImageBase64 = 'data:image/jpeg;base64,' + "@Html.Raw(imageBase64)";
+        }
+    </script>
+}
+
 <div class="d-none">
     <div id="editor"></div>
     <div id="cv-content">
-        <h1>CV</h1>
-        
-            
-               
 
-        <img src="@Url.Action("GetResumeImage", new { id = Model.Id })">
-              
-           
-        
-        <p>First Name: <strong>@Model.FirstName</strong></p>
-        <p>Last Name: <strong>@Model.LastName</strong></p>
+        <p>Name: <strong>@Model.FirstName @Model.MiddleName @Model.LastName</strong></p>
+        @{
+            var descriptionChunks = Model?.Description?.Chunk(65) ?? new List<char[]>();
+        }
+
+        @foreach (var chunk in descriptionChunks)
+        {
+            <p>
+                @foreach (var charItem in chunk)
+                {
+                    @charItem
+                }
+            </p>
+        }
+
         <p>Address: <strong>@Model.Address</strong></p>
         <p>Phone: <strong>@Model.PhoneNumber</strong></p>
         <p>Email: <strong>@Model.EmailAddress</strong></p>
         <p>Birthday: <strong>@Model.Birthday.Year</strong></p>
 
-        <p>Personal description: <strong>@Model.Description</strong></p>
         <p>Skills: </p>
         @foreach (var skill in Model.Skills)
         {
-            <p><strong>- @skill.Name</strong></p>
+            <p>
+                <strong>- @skill.Name</strong>
+            </p>
         }
         <p>Languages: </p>
 
 
         @foreach (var language in Model.Languages)
         {
-            <p><strong>@language.Name  Level: <strong>@language.Level</strong></strong></p>
+            <p>
+                <strong>@language.Name Level: <strong>@language.Level</strong></strong>
+            </p>
         }
         <p>Educations: </p>
 
         @foreach (var education in Model.Educations)
         {
-            <p><strong>- @education.Name</strong></p>
+            <p>
+                <strong>- @education.Name</strong>
+            </p>
         }
         <p>Jobs: </p>
 
         @foreach (var job in Model.Jobs)
         {
-            <p><strong>- @job.Name</strong></p>
+            <p>
+                <strong>- @job.Name</strong>
+            </p>
         }
         <p>Certificates: </p>
 
         @foreach (var certificate in Model.Certificates)
         {
-            <p><strong>- @certificate.Name</strong></p>
+            <p>
+                <strong>- @certificate.Name</strong>
+            </p>
         }
+
     </div>
 </div>

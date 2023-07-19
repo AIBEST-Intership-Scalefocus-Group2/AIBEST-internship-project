@@ -18,7 +18,13 @@ $("document").ready(function () {
             'width': 2500,
             'elementHandlers': specialElementHandlers
         });
+
+        if (resumeImageBase64) {
+            doc.addImage(resumeImageBase64, 'jpg', 350, 20, 180, 160);
+        }
+        
         doc.save('resume.pdf');
+        
     })
 });
 
