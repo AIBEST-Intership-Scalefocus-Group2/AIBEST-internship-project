@@ -7,13 +7,19 @@
 
 <div class="container">
     <main role="main" class="p-3 card">
-        <partial name="_PersonalInfoReviewSection" model="@Model" view-data="@ViewData" />
-        <partial name="_SkillsSection" model="@Model" view-data="@ViewData" />
-        <partial name="_LanguageSection" model="@Model" view-data="@ViewData" />
-        <partial name="_EducationSection" model="@Model" view-data="@ViewData" />
-        <partial name="_JobSection" model="@Model" view-data="@ViewData" />
-        <partial name="_CertificateSection" model="@Model" view-data="@ViewData" />
-
+        <div id="cv-content">
+            <partial name="_PersonalInfoReviewSection" model="@Model" view-data="@ViewData" />
+            <partial name="_SkillsSection" model="@Model" view-data="@ViewData" />
+            <partial name="_LanguageSection" model="@Model" view-data="@ViewData" />
+            <partial name="_EducationSection" model="@Model" view-data="@ViewData" />
+            <partial name="_JobSection" model="@Model" view-data="@ViewData" />
+            <partial name="_CertificateSection" model="@Model" view-data="@ViewData" />
+        </div>
+       
+        <div class="me-2">
+            <div id="editor"></div>
+            <button class="btn btn-info" id="generate-pdf">Download PDF</button>
+        </div>
         <div class="me-2">
             <a class="btn btn-dark" href="@Url.Action("Index")">Close</a>
         </div>
