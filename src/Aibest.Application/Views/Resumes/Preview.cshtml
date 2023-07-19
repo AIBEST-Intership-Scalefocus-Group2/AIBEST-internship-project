@@ -1,17 +1,13 @@
 ﻿@model ResumeModel
 @{
     ViewData["ResumeId"] = Model.Id;
-    ViewData["EditMode"] = true;
+    ViewData["EditMode"] = false;
 }
 
 
 <div class="container">
     <main role="main" class="p-3 card">
-        <div class="text-center">
-            <h1 class="display-4">Edit your personal CV</h1>
-        </div>
-
-        <partial name="_PersonalInfoEditSection" model="@Model" view-data="@ViewData" />
+        <partial name="_PersonalInfoReviewSection" model="@Model" view-data="@ViewData" />
         <partial name="_SkillsSection" model="@Model" view-data="@ViewData" />
         <partial name="_LanguageSection" model="@Model" view-data="@ViewData" />
         <partial name="_EducationSection" model="@Model" view-data="@ViewData" />

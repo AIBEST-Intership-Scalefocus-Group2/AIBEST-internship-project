@@ -1,4 +1,8 @@
-    @model ResumeModel
+@model ResumeModel
+@{
+    ViewData.TryGetValue("EditMode", out var editModeRaw);
+    var editMode = Convert.ToBoolean(editModeRaw);
+}
 
 <div>
     <h3 class="display-4">Skills</h3>
@@ -10,24 +14,33 @@
             <thead>
                 <tr>
                     <th scope="col">Name</th>
-                    <th scope="col"></th>
+                    @if (editMode)
+                    {
+                        <th scope="col"></th>
+                    }
                 </tr>
             </thead>
             <tbody>
-                <partial name="_SkillRowForm" model="@(new SkillModel())" view-data="@ViewData" />
+                @if (editMode)
+                {
+                    <partial name="_SkillRowForm" model="@(new SkillModel())" view-data="@ViewData" />
+                }
                 @foreach (var skill in Model.Skills)
                 {
                     <tr>
                         <th>@skill.Name</th>
-                        <td>
-                            <form method="post" asp-action="DeleteSkill" onsubmit="return confirm('Do you really want to delete `@skill.Name` skill from your CV?');">
-                                <input type="hidden" name="SkillId" value="@skill.Id" />
-                                <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
-                                <button type="submit" class="btn btn-danger">
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
+                        @if (editMode)
+                        {
+                            <td>
+                                <form method="post" asp-action="DeleteSkill" onsubmit="return confirm('Do you really want to delete `@skill.Name` skill from your CV?');">
+                                    <input type="hidden" name="SkillId" value="@skill.Id" />
+                                    <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
+                                    <button type="submit" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        }
                     </tr>
                 }
             </tbody>

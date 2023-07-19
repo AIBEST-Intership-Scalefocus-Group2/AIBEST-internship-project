@@ -47,6 +47,21 @@ namespace Aibest.Application.Controllers
             return View(viewModel);
         }
 
+        [HttpGet("{id}/preview")]
+        public IActionResult Preview([FromRoute] int id)
+        {
+            ResumeModel resume = _resumeService.GetResume(id);
+
+            if (resume != null)
+            {
+                return View(resume);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpGet("{id}/edit")]
         public IActionResult Edit([FromRoute] int id)
         {
