@@ -179,6 +179,7 @@ namespace Aibest.Business.Services
                     LastName = resume.LastName,
                     FirstName = resume.FirstName,
                     PhoneNumber = resume.PhoneNumber,
+                    EmailAddress = resume.EmailAddress,
                     UserId = GetCurrentUserId(),
                 };
                 context.Resumes.Add(resumeNew);
@@ -239,6 +240,7 @@ namespace Aibest.Business.Services
                 Birthday = resume.Birthday,
                 EmailAddress = resume.EmailAddress,
                 PhoneNumber = resume.PhoneNumber,
+                PictureBytes = resume.ImageBytes,
                 Address = resume.Address,
                 Description = resume.Description
             };
@@ -346,6 +348,7 @@ namespace Aibest.Business.Services
                 resume.PhoneNumber = resumeModel.PhoneNumber;
                 resume.Address = resumeModel.Address;
                 resume.Description = resumeModel.Description;
+                resume.ImageBytes = resumeModel.PictureBytes;
                 context.SaveChanges();
                 return true;
             }
@@ -398,5 +401,10 @@ namespace Aibest.Business.Services
 
         private bool ResumeExists(int resumeId) =>
            this.context.Resumes.Any(r => r.Id == resumeId);
+
+        public byte[] GetResumePicture(int resumeId)
+        {
+            return this.context.Resumes.Where(r=>r.Id == resumeId).Select(r=>r.ImageBytes).FirstOrDefault();   
+        }
     }
 }

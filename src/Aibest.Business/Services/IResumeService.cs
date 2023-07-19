@@ -6,6 +6,8 @@ namespace Aibest.Business.Services
 {
     public interface IResumeService
     {
+        byte[] GetResumePicture(int resumeId);
+
         IEnumerable<ResumeModel> GetResumes();
 
         ResumeModel GetResume(int resumeId);

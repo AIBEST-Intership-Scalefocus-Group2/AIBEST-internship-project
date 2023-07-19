@@ -7,6 +7,14 @@
 
 <div class="container">
     <main role="main" class="p-3 card">
+
+        @if (Model.PictureBytes != null)
+        {
+            <div>
+                <img src="@Url.Action("GetResumeImage", new { id = Model.Id })">
+            </div>
+        }
+
         <partial name="_PersonalInfoReviewSection" model="@Model" view-data="@ViewData" />
         <partial name="_SkillsSection" model="@Model" view-data="@ViewData" />
         <partial name="_LanguageSection" model="@Model" view-data="@ViewData" />
