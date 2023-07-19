@@ -7,7 +7,7 @@
 
 
 <div class="container">
-    <main role="main" class="p-3 card">
+    <main role="main" class="p-3 card" >
 
         @if (Model.PictureBytes != null)
         {
@@ -16,7 +16,7 @@
             </div>
         }
 
-        <div>
+        <div   id="cv-content">
             <partial name="_PersonalInfoReviewSection" model="@Model" view-data="@ViewData"/>
             <partial name="_SkillsSection" model="@Model" view-data="@ViewData"/>
             <partial name="_LanguageSection" model="@Model" view-data="@ViewData"/>
@@ -43,7 +43,7 @@
 
 <div class="d-none">
     <div id="editor"></div>
-    <div id="cv-content">
+    <div>
 
         <p>Name: <strong>@Model.FirstName @Model.MiddleName @Model.LastName</strong></p>
         @{
