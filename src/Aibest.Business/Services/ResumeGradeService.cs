@@ -11,7 +11,7 @@ namespace Aibest.Business.Services
     {
         public async Task<string> GradeResume(ResumeModel resume)
         {
-            var api = new OpenAI_API.OpenAIAPI("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");
+            var api = new OpenAI_API.OpenAIAPI("");
 
             var languages = string.Join("\n", resume.Languages.Select(x => x.Name + " Level: " + x.Level));
 
