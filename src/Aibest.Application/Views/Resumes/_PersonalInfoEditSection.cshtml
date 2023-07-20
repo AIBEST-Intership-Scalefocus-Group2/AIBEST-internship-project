@@ -19,25 +19,25 @@
             }
 
             <div>
-                <label for="firstName" class="col-sm-2 col-form-label">Name</label>
+                <label for="Name" class="col-sm-2 col-form-label">Name</label>
                 <input type="text" class="form-control" asp-for="Name" id="name">
                 <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
             <div>
                 <label for="firstName" class="col-sm-2 col-form-label">First name</label>
-                <input type="text" class="form-control" asp-for="FirstName" id="firstName">
+                <input type="text" class="form-control" asp-for="FirstName" id="firstName" <span class="text-danger">*</span>>
                 <span class="text-danger" asp-validation-for="FirstName"></span>
             </div>
 
             <div>
-                <label for="lastName" class="form-label">Middle name</label>
+                <label for="middleName" class="form-label">Middle name</label>
                 <input type="text" class="form-control" asp-for="MiddleName" id="middleName">
             </div>
 
             <div>
                 <label for="lastName" class="form-label">Last name</label>
-                <input type="text" class="form-control" asp-for="LastName" id="lastName">
+                <input type="text" class="form-control" asp-for="LastName" id="lastName" <span class="text-danger">*</span>>
                 <span class="text-danger" asp-validation-for="LastName"></span>
             </div>
 
@@ -48,7 +48,7 @@
 
             <div>
                 <label for="email" class="form-label">Email Address</label>
-                <input type="email" class="form-control" asp-for="EmailAddress" id="email" required>
+                <input type="email" class="form-control" asp-for="EmailAddress" id="email" <span class="text-danger">*</span> required>
                 <span class="text-danger" asp-validation-for="EmailAddress"></span>
             </div>
 
