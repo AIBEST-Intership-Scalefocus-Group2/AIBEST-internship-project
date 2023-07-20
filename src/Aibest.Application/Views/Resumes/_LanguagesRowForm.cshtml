@@ -1,5 +1,5 @@
 ﻿@model LanguageModel
-
+@using Aibest.Data
 <tr>
     <form method="post" asp-action="AddLanguage" asp-controller="Resumes">
         <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
@@ -10,7 +10,12 @@
     </td>
     <td>
         <div>
-            <input type="text" class="form-control" name="level" id="level" />
+            <select class="form-control" name="level" id="level">
+                    @foreach (var level in Enum.GetValues(typeof(Levels)))
+                    {
+                    <option value="@level">@level</option>
+                    }
+            </select>
         </div>
     </td>
     <td>

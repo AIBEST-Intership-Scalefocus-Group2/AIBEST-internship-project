@@ -1,4 +1,5 @@
-﻿@model ResumeModel
+﻿@using Aibest.Business.Services;
+@model ResumeModel
 @{
     ViewData["ResumeId"] = Model.Id;
     ViewData["EditMode"] = false;
@@ -25,6 +26,8 @@
                 <partial name="_CertificateSection" model="@Model" view-data="@ViewData" />
             </div>
         </div>
+        
+
         
 
         <div class="me-2 d-flex">
