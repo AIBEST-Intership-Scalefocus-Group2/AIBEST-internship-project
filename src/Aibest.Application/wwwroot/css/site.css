@@ -69,3 +69,11 @@ label[for="Input_ConfirmPassword"] {
     top: -90px; 
     display: block;
 }
+
+.last-col {
+    width: 100px;
+}
+
+.last-col .btn {
+    width: 100%;
+}

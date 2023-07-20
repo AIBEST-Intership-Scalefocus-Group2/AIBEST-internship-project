@@ -35,7 +35,7 @@
                         <th>@language.Level</th>
                         @if (editMode)
                         {
-                            <td>
+                            <td class="last-col">
                                 <form method="post" asp-action="DeleteLanguage">
                                     <input type="hidden" name="LanguageId" value="@language.Id" onsubmit="return confirm('Do you really want to delete `@language.Name?` language from your CV?');" />
                                     <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />

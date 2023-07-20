@@ -30,7 +30,7 @@
                         <div>
                             <label for="firstName" class="form-label">First name</label> <span class="text-danger">*</span>
                             <input type="text" class="form-control" asp-for="FirstName" id="firstName" >
-                            <span class="text-danger" asp-validation-for="FirstName"></span>
+                            <span class="text-danger mb-2" asp-validation-for="FirstName"></span>
                         </div>
 
                         <div>
@@ -41,8 +41,8 @@
 
                         <div>
                             <label for="email" class="form-label">Email Address</label> <span class="text-danger">*</span>
-                            <input type="text" class="form-control" asp-for="EmailAddress" id="email" >
-                            <span class="text-danger" asp-validation-for="EmailAddress"></span>
+                            <input type="email" class="form-control" asp-for="EmailAddress" id="email" >
+                            <span class="text-danger mb-2" asp-validation-for="EmailAddress"></span>
                         </div>
 
                         <div>

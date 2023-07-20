@@ -35,7 +35,7 @@
                         <th>@certificate.IssuedYear.ToShortDateString()</th>
                         @if (editMode)
                         {
-                            <td>
+                            <td class="last-col">
                                 <form method="post" asp-action="DeleteCertificate" onsubmit="return confirm('Do you really want to delete `@certificate.Name` certificate from your CV?');">
                                     <input type="hidden" name="CertificateId" value="@certificate.Id" />
                                     <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />

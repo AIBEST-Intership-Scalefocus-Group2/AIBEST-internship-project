@@ -41,7 +41,7 @@
                         <th>@job.EndYear.ToShortDateString()</th>
                         @if (editMode)
                         {
-                            <td>
+                            <td class="last-col">
                                 <form method="post" asp-action="DeleteJob" onsubmit="return confirm('Do you really want to delete `@job.Name` job from your CV?');">
                                     <input type="hidden" name="JobId" value="@job.Id" />
                                     <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />

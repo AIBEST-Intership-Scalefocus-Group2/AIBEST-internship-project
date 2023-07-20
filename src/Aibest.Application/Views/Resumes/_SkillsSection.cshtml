@@ -31,7 +31,7 @@
                         <th>@skill.Name</th>
                         @if (editMode)
                         {
-                            <td>
+                            <td class="last-col">
                                 <form method="post" asp-action="DeleteSkill" onsubmit="return confirm('Do you really want to delete `@skill.Name` skill from your CV?');">
                                     <input type="hidden" name="SkillId" value="@skill.Id" />
                                     <input type="hidden" name="ResumeId" value="@ViewData["ResumeId"]" />
