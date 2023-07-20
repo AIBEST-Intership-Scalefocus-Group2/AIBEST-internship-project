@@ -94,15 +94,23 @@ namespace Aibest.Application.Controllers
         [HttpPost("edit-personal-information")]
         public IActionResult EditPersonalInformation(
             [FromForm(Name = "ResumeId")] int resumeId,
-            [FromForm(Name = "Picture")]IFormFile picture,
+            [FromForm(Name = "Picture")] IFormFile picture,
             [FromForm] ResumeModel model)
         {
             if (ModelState.IsValid)
             {
-                model.Id = resumeId;
-                var pictureStream = new MemoryStream();
-                picture.CopyTo(pictureStream);
-                model.PictureBytes = pictureStream.ToArray();
+                if (picture == null)
+                {
+                    model.PictureBytes = _resumeService.GetResumePicture(resumeId);
+                }
+                else
+                {
+                    model.Id = resumeId;
+                    var pictureStream = new MemoryStream();
+                    picture.CopyTo(pictureStream);
+                    model.PictureBytes = pictureStream.ToArray();
+                }
+
                 bool isSuccess = _resumeService.UpdateResume(model);
 
                 if (isSuccess)
@@ -140,7 +148,7 @@ namespace Aibest.Application.Controllers
         }
 
         [HttpPost("delete")]
-        public IActionResult DeleteResume([FromForm(Name = "ResumeId")]int resumeId)
+        public IActionResult DeleteResume([FromForm(Name = "ResumeId")] int resumeId)
         {
 
             bool isSuccess = _resumeService.DeleteResume(resumeId);
@@ -161,7 +169,7 @@ namespace Aibest.Application.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool isSuccess = _resumeService.AddLanguageToResume(resumeId, model,level);
+                bool isSuccess = _resumeService.AddLanguageToResume(resumeId, model, level);
 
                 if (isSuccess)
                 {
@@ -177,7 +185,7 @@ namespace Aibest.Application.Controllers
         }
 
         [HttpPost("add-skill")]
-        public IActionResult AddSkill([FromForm(Name = "ResumeId")] int resumeId, [FromForm]SkillModel model)
+        public IActionResult AddSkill([FromForm(Name = "ResumeId")] int resumeId, [FromForm] SkillModel model)
         {
             if (ModelState.IsValid)
             {
@@ -217,7 +225,7 @@ namespace Aibest.Application.Controllers
         }
 
         [HttpPost("add-education")]
-        public IActionResult AddEducation([FromForm(Name = "ResumeId")] int resumeId, [FromForm]EducationModel model)
+        public IActionResult AddEducation([FromForm(Name = "ResumeId")] int resumeId, [FromForm] EducationModel model)
         {
             if (ModelState.IsValid)
             {
