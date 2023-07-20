@@ -24,6 +24,12 @@
                     <img height="150" src="@Url.Action("GetResumeImage", new { id = Model.Id })">
                 </div>
             }
+            else
+            {
+                <div class="justify-content-end d-flex">
+                    <img height="150" src="~/img/empty-avatar.webp">
+                </div>
+            }
 
             <div>
                 <partial name="_PersonalInfoReviewSection" model="@Model" view-data="@ViewData" />
