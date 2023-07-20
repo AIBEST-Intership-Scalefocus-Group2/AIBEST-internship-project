@@ -26,16 +26,7 @@
                 <partial name="_CertificateSection" model="@Model" view-data="@ViewData" />
             </div>
         </div>
-        <div>
-            @{  
-                var aicontroller = new ResumeGradeService();
-                var result = await aicontroller.GradeResume(Model);
-            }
-            <h3 class="fs-3 mt-3 mb-2">AI grading result</h3>
-            <hr style="height: 2px">
-
-            <p>@result</p>
-        </div>
+        
 
         
 
