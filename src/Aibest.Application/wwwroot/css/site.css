@@ -32,3 +32,40 @@ nav {
 #Page-Account-Register .col-md-6.col-md-offset-2 {
     display: none;
 }
+
+#registerSubmit {
+    position: relative;
+    top: -60px; 
+}
+
+#Input_Password {
+    position: relative;
+    top: 10px;
+}
+
+label[for="Input_Password"] {
+    position: relative;
+    top: -49px; 
+}
+
+#Input_Password-error {
+    position: relative;
+   top: -45px;
+    display: block;
+}
+
+#Input_ConfirmPassword {
+    position: relative;
+    bottom: 38px;
+}
+
+label[for="Input_ConfirmPassword"] {
+    position: relative;
+    top: -100px;
+}
+
+#Input_ConfirmPassword-error {
+    position: relative;
+    top: -90px; 
+    display: block;
+}
