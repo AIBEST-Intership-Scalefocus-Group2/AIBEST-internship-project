@@ -32,7 +32,3 @@ nav {
 #Page-Account-Register .col-md-6.col-md-offset-2 {
     display: none;
 }
-
-#Page-Account-Login #account > div:nth-child(7) {
-    display: none;
-}
