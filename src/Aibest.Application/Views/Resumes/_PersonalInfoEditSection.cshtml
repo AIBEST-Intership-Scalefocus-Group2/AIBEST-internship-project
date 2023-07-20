@@ -19,13 +19,13 @@
             }
 
             <div>
-                <label for="Name" class="col-sm-2 col-form-label">Name</label>
+                <label for="Name" class="form-label">Name</label><span class="text-danger">*</span>
                 <input type="text" class="form-control" asp-for="Name" id="name">
                 <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
             <div>
-                <label for="firstName" class="col-sm-2 col-form-label">First name</label> <span class="text-danger">*</span>
+                <label for="firstName" class="form-label">First name</label> <span class="text-danger">*</span>
                 <input type="text" class="form-control" asp-for="FirstName" id="firstName" >
                 <span class="text-danger" asp-validation-for="FirstName"></span>
             </div>
@@ -42,8 +42,9 @@
             </div>
 
             <div>
-                <label for="birthday" class="form-label">Birthday</label>
-                <input type="date" value="21.07.2023" class="form-control" asp-for="Birthday" id="birthday">
+                <label for="birthday" class="form-label">Birthday</label><span class="text-danger">*</span>
+                <input type="date" class="form-control" asp-for="Birthday" id="birthday">
+                <span class="text-danger" asp-validation-for="Birthday"></span>
             </div>
 
             <div>

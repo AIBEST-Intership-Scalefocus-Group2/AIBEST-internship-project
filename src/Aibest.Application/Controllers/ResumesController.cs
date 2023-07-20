@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System;
 
 namespace Aibest.Application.Controllers
 {
@@ -97,15 +98,16 @@ namespace Aibest.Application.Controllers
             [FromForm(Name = "Picture")] IFormFile picture,
             [FromForm] ResumeModel model)
         {
+      
             if (ModelState.IsValid)
             {
+                model.Id = resumeId;
                 if (picture == null)
                 {
                     model.PictureBytes = _resumeService.GetResumePicture(resumeId);
                 }
                 else
                 {
-                    model.Id = resumeId;
                     var pictureStream = new MemoryStream();
                     picture.CopyTo(pictureStream);
                     model.PictureBytes = pictureStream.ToArray();

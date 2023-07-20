@@ -181,6 +181,7 @@ namespace Aibest.Business.Services
                     PhoneNumber = resume.PhoneNumber,
                     EmailAddress = resume.EmailAddress,
                     UserId = GetCurrentUserId(),
+                    Birthday = DateTime.Now.AddYears(-20),
                 };
                 context.Resumes.Add(resumeNew);
                 context.SaveChanges();
