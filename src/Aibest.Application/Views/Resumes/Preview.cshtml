@@ -1,14 +1,22 @@
 ﻿@using Aibest.Business.Services;
+@inject IResumeGradeService ResumeGradeService;
 @model ResumeModel
 @{
     ViewData["ResumeId"] = Model.Id;
     ViewData["EditMode"] = false;
     var imageBase64 = Model.PictureBytes != null ? Convert.ToBase64String(Model.PictureBytes) : string.Empty;
+
+    var gradeResumeResult = await ResumeGradeService.GradeResume(Model);
 }
 
 
 <div class="container">
     <main role="main" class="p-3 card">
+        <div class="alert alert-warning">
+            <h3 class="fs-5">AI Suggestion</h3>
+            <p class="m-0">@gradeResumeResult</p>
+        </div>
+
         <div id="cv-content">
             @if (Model.PictureBytes != null)
             {
@@ -27,9 +35,6 @@
             </div>
         </div>
         
-
-        
-
         <div class="me-2 d-flex">
             <button class="btn btn-info me-2" id="generate-pdf">Download PDF</button>
             <a class="btn btn-dark" href="@Url.Action("Index")">Close</a>
