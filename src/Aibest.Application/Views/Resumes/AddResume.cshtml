@@ -18,9 +18,8 @@
 
             <form asp-action="AddResume" method="post">
                 <div>
-                    <label for="name" class="col-sm-2 col-form-label">Name</label>
+                    <label for="name" class="form-label">Name</label> <span class="text-danger">*</span>
                     <input type="text" class="form-control" asp-for="Name" id="name" placeholder="required">
-                    <span class="text-danger" asp-validation-for="Name"></span>
                 </div>
 
                 <div class="mb-3">
@@ -28,7 +27,7 @@
 
                     <div>
                         <div>
-                            <label for="firstName" class="col-sm-2 col-form-label">First name</label> <span class="text-danger">*</span>
+                            <label for="firstName" class="form-label">First name</label> <span class="text-danger">*</span>
                             <input type="text" class="form-control" asp-for="FirstName" id="firstName" >
                             <span class="text-danger" asp-validation-for="FirstName"></span>
                         </div>
