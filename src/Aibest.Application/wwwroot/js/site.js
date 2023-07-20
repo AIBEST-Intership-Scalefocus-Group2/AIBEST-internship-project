@@ -5,7 +5,8 @@
 
 
 $("document").ready(function () {
-    var doc = new jsPDF('p', 'pt', 'A4');
+    window.jsPDF = window.jspdf.jsPDF;
+
 
     var specialElementHandlers = {
         '#editor': function (element, renderer) {
@@ -14,17 +15,17 @@ $("document").ready(function () {
     };
 
     $('#generate-pdf').on('click', function () {
-        doc.fromHTML($('#cv-content').html(), 30, 15, {
-            'width': 2500,
-            'elementHandlers': specialElementHandlers
-        });
+        var element = document.getElementById("cv-content")
+        var opt = {
+            margin: 1,
+            filename: 'myfile.pdf',
+            image: {type: 'jpeg', quality: 0.98},
+            html2canvas: { scrollY: 0, scrollX: 0},
+            jsPDF: {unit: 'pt', format: 'a4', orientation: 'portrait'}
+        };
+        html2pdf().set(opt).from(element).save();
 
-        if (resumeImageBase64) {
-            doc.addImage(resumeImageBase64, 'jpg', 350, 20, 180, 160);
-        }
-        
-        doc.save('resume.pdf');
-        
+
     })
 });
 

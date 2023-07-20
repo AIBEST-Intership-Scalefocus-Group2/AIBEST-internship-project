@@ -33,10 +33,6 @@ nav {
     display: none;
 }
 
-#Page-Account-Login #account > div:nth-child(7) {
-    display: none;
-}
-
 #registerSubmit {
     position: relative;
     top: -60px; 
