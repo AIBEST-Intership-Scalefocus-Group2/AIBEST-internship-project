@@ -5,7 +5,7 @@
 }
 
 <div class="mb-3">
-    <h3 class="display-4">Personal information</h3>
+    <h3 class="fs-3 mt-3 mb-2">Personal information</h3>
 
     <form asp-action="EditPersonalInformation" method="post" asp-controller="Resumes" enctype="multipart/form-data">
         <input type="hidden" name="ResumeId" value="@(ViewData["ResumeId"])" />
@@ -14,7 +14,7 @@
             @if (Model.PictureBytes != null)
             {
                 <div>
-                    <img src="@Url.Action("GetResumeImage", new { id = Model.Id })">
+                    <img height="150" src="@Url.Action("GetResumeImage", new { id = Model.Id })">
                 </div>
             }
 
